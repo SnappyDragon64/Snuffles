@@ -1,0 +1,19 @@
+modLoader="javafml"
+loaderVersion="[38,)"
+license="All rights reserved"
+issueTrackerURL="https://github.com/SnappyDragon18/Snuffles/issues"
+
+[[mods]]
+  modId="snuffles"
+  version="0.1.0"
+  displayName="Snuffles"
+  displayURL="https://www.curseforge.com/minecraft/mc-mods/snuffles"
+  authors="SchnappDragon, Edmord17"
+  description='''Winterjam 2021 mod that adds Snuffles, a cute new mob to snowy biomes.'''
+
+  [[dependencies.snuffles]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.18, 1.19)"
+    ordering="NONE"
+    side="BOTH"

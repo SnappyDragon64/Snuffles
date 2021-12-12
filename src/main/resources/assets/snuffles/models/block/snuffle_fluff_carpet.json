@@ -1,0 +1,7 @@
+{
+  "parent": "snuffles:block/template_carpet_with_tassels",
+  "textures": {
+    "fluff": "snuffles:block/snuffle_fluff",
+    "tassels": "snuffles:block/snuffle_fluff_carpet_tassels"
+  }
+}

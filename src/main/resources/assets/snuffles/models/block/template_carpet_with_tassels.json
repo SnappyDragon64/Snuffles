@@ -1,0 +1,61 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "minecraft:block/thin_block",
+  "textures": {
+    "particle": "#fluff"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 0],
+      "to": [16, 1, 16],
+      "faces": {
+        "up": {"uv": [0, 0, 16, 16], "texture": "#fluff"},
+        "down": {"uv": [0, 0, 16, 16], "texture": "#fluff", "cullface": "down"},
+        "north": {"uv": [0, 15, 16, 16], "texture": "#fluff", "cullface": "north"},
+        "south": {"uv": [0, 15, 16, 16], "texture": "#fluff", "cullface": "south"},
+        "west": {"uv": [0, 15, 16, 16], "texture": "#fluff", "cullface": "west"},
+        "east": {"uv": [0, 15, 16, 16], "texture": "#fluff", "cullface": "east"}
+      }
+    },
+    {
+      "from": [0, 1, -2],
+      "to": [16, 1, 0],
+      "shade": false,
+      "rotation": {"angle": -22.5, "axis": "x", "origin": [8, 1, 0]},
+      "faces": {
+        "up": {"uv": [0, 16, 2, 0], "rotation": 90, "texture": "#tassels", "cullface": "north"},
+        "down": {"uv": [0, 0, 2, 16], "rotation": 270, "texture": "#tassels", "cullface": "north"}
+      }
+    },
+    {
+      "from": [0, 1, 16],
+      "to": [16, 1, 18],
+      "shade": false,
+      "rotation": {"angle": 22.5, "axis": "x", "origin": [8, 1, 16]},
+      "faces": {
+        "up": {"uv": [2, 0, 0, 16], "rotation": 90, "texture": "#tassels", "cullface": "south"},
+        "down": {"uv": [2, 16, 0, 0], "rotation": 270, "texture": "#tassels", "cullface": "south"}
+      }
+    },
+    {
+      "from": [-2, 1, 0],
+      "to": [0, 1, 16],
+      "shade": false,
+      "rotation": {"angle": 22.5, "axis": "z", "origin": [0, 1, 8]},
+      "faces": {
+        "up": {"uv": [2, 0, 0, 16], "rotation": 180, "texture": "#tassels", "cullface": "west"},
+        "down": {"uv": [2, 16, 0, 0], "rotation": 180, "texture": "#tassels", "cullface": "west"}
+      }
+    },
+    {
+      "from": [16, 1, 0],
+      "to": [18, 1, 16],
+      "shade": false,
+      "rotation": {"angle": -22.5, "axis": "z", "origin": [16, 1, 8]},
+      "faces": {
+        "up": {"uv": [0, 16, 2, 0], "rotation": 180, "texture": "#tassels", "cullface": "east"},
+        "down": {"uv": [0, 0, 2, 16], "rotation": 180, "texture": "#tassels", "cullface": "east"}
+      }
+    }
+  ]
+}
