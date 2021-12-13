@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#X#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "snuffles:snuffle_fluff"
+    },
+    "X": {
+      "item": "minecraft:powder_snow_bucket"
+    }
+  },
+  "result": {
+    "item": "snuffles:frosty_fluff",
+    "count": 8
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "carpet",
+  "pattern": [
+    "###",
+    "#X#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "snuffles:snuffle_fluff_carpet"
+    },
+    "X": {
+      "item": "minecraft:powder_snow_bucket"
+    }
+  },
+  "result": {
+    "item": "snuffles:frosty_fluff_carpet",
+    "count": 8
+  }
+}

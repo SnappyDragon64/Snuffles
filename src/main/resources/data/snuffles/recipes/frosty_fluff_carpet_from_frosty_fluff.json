@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "carpet",
+  "pattern": [
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "snuffles:frosty_fluff"
+    }
+  },
+  "result": {
+    "item": "snuffles:frosty_fluff_carpet",
+    "count": 3
+  }
+}
