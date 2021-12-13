@@ -1,6 +1,7 @@
 package mod.schnappdragon.snuffles.core;
 
 import mod.schnappdragon.snuffles.client.renderer.SnufflesRenderLayers;
+import mod.schnappdragon.snuffles.core.misc.SnufflesFlammables;
 import mod.schnappdragon.snuffles.core.registry.SnuffleItems;
 import mod.schnappdragon.snuffles.core.registry.SnufflesBlocks;
 import net.minecraftforge.common.MinecraftForge;
@@ -31,6 +32,7 @@ public class Snuffles {
 
     private void commonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
+            SnufflesFlammables.registerFlammables();
         });
     }
 

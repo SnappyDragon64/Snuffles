@@ -1,12 +1,15 @@
 package mod.schnappdragon.snuffles.common.block;
 
 import mod.schnappdragon.snuffles.core.registry.SnufflesBlocks;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -14,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
-public class FrostyFluffBlock extends Block {
+public class FrostyFluffBlock extends SnuffleFluffBlock {
     public FrostyFluffBlock(Properties properties) {
         super(properties);
     }
@@ -26,17 +29,31 @@ public class FrostyFluffBlock extends Block {
 
     @Override
     public void stepOn(Level world, BlockPos pos, BlockState state, Entity entity) {
-        if (world.isClientSide) {
-            if ((entity.xOld != entity.getX() || entity.yOld != entity.getY() || entity.zOld != entity.getZ()) && world.getRandom().nextBoolean())
+        if ((entity.xOld != entity.getX() || entity.zOld != entity.getZ()) && world.getRandom().nextBoolean()) {
+            if (world.isClientSide && entity instanceof Player)
                 world.addParticle(ParticleTypes.SNOWFLAKE, entity.getX(), entity.getY(), entity.getZ(), Mth.randomBetween(world.getRandom(), -1.0F, 1.0F) * 0.083F, 0.05F, Mth.randomBetween(world.getRandom(), -1.0F, 1.0F) * 0.083F);
+            else if (!world.isClientSide)
+                ((ServerLevel) world).sendParticles(ParticleTypes.SNOWFLAKE, entity.getX(), entity.getY(), entity.getZ(), 0, Mth.randomBetween(world.getRandom(), -1.0F, 1.0F) * 0.083F, 0.05F, Mth.randomBetween(world.getRandom(), -1.0F, 1.0F) * 0.083F, 1.0F);
         }
 
         super.stepOn(world, pos, state, entity);
     }
 
     @Override
+    public void fallOn(Level world, BlockState state, BlockPos pos, Entity entity, float damage) {
+        if (!world.isClientSide) {
+            int n = Math.min(8, Mth.ceil(damage * 0.5F));
+
+            for (int i = 0; i < n; i++)
+                ((ServerLevel) world).sendParticles(ParticleTypes.SNOWFLAKE, entity.getX(), entity.getY(), entity.getZ(), 0, Mth.randomBetween(world.getRandom(), -1.0F, 1.0F) * 0.083F, 0.05F, Mth.randomBetween(world.getRandom(), -1.0F, 1.0F) * 0.083F, 1.0F);
+        }
+
+        super.fallOn(world, state, pos, entity, damage);
+    }
+
+    @Override
     public void animateTick(BlockState state, Level world, BlockPos pos, Random random) {
-        if (random.nextBoolean())
-            world.addParticle(ParticleTypes.SNOWFLAKE, pos.getX() + random.nextDouble(), pos.getY() + random.nextDouble(), pos.getZ() + random.nextDouble(), Mth.randomBetween(world.getRandom(), -0.1F, 0.1F) * 0.083F, 0.0F, Mth.randomBetween(world.getRandom(), -0.1F, 0.1F) * 0.083F);
+        if (!world.getBlockState(pos.below()).canOcclude())
+            world.addParticle(ParticleTypes.SNOWFLAKE, pos.getX() + random.nextDouble(), pos.getY() - 0.1F, pos.getZ() + random.nextDouble(), 0.0F, 0.0F, 0.0F);
     }
 }
