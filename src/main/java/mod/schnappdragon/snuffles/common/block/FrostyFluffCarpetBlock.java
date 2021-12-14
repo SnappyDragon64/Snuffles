@@ -1,9 +1,9 @@
 package mod.schnappdragon.snuffles.common.block;
 
 import mod.schnappdragon.snuffles.core.registry.SnufflesBlocks;
+import mod.schnappdragon.snuffles.core.registry.SnufflesParticleTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -32,7 +32,7 @@ public class FrostyFluffCarpetBlock extends CarpetBlock {
             AABB aabb = TOUCH_AABB.move(pos);
             if (world.getEntities(null, aabb).contains(entity)) {
                 if ((entity.xOld != entity.getX() || entity.yOld != entity.getY() || entity.zOld != entity.getZ()) && world.getRandom().nextBoolean())
-                    ((ServerLevel) world).sendParticles(ParticleTypes.SNOWFLAKE, entity.getX(), entity.getY(), entity.getZ(), 0, Mth.randomBetween(world.getRandom(), -1.0F, 1.0F) * 0.083F, 0.05F, Mth.randomBetween(world.getRandom(), -1.0F, 1.0F) * 0.083F, 1.0F);
+                    ((ServerLevel) world).sendParticles(SnufflesParticleTypes.SNOWFLAKE.get(), entity.getX(), entity.getY(), entity.getZ(), 0, Mth.randomBetween(world.getRandom(), -1.0F, 1.0F) * 0.083F, 0.05F, Mth.randomBetween(world.getRandom(), -1.0F, 1.0F) * 0.083F, 1.0F);
             }
         }
 
