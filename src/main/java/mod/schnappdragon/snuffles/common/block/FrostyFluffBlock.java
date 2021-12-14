@@ -1,7 +1,6 @@
 package mod.schnappdragon.snuffles.common.block;
 
 import mod.schnappdragon.snuffles.core.registry.SnufflesBlocks;
-import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -11,7 +10,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,7 +27,7 @@ public class FrostyFluffBlock extends SnuffleFluffBlock {
 
     @Override
     public void stepOn(Level world, BlockPos pos, BlockState state, Entity entity) {
-        if ((entity.xOld != entity.getX() || entity.zOld != entity.getZ()) && world.getRandom().nextBoolean()) {
+        if ((entity.xOld != entity.getX() || entity.yOld != entity.getY() || entity.zOld != entity.getZ()) && world.getRandom().nextBoolean()) {
             if (world.isClientSide && entity instanceof Player)
                 world.addParticle(ParticleTypes.SNOWFLAKE, entity.getX(), entity.getY(), entity.getZ(), Mth.randomBetween(world.getRandom(), -1.0F, 1.0F) * 0.083F, 0.05F, Mth.randomBetween(world.getRandom(), -1.0F, 1.0F) * 0.083F);
             else if (!world.isClientSide)
@@ -37,18 +35,6 @@ public class FrostyFluffBlock extends SnuffleFluffBlock {
         }
 
         super.stepOn(world, pos, state, entity);
-    }
-
-    @Override
-    public void fallOn(Level world, BlockState state, BlockPos pos, Entity entity, float damage) {
-        if (!world.isClientSide) {
-            int n = Math.min(8, Mth.ceil(damage * 0.5F));
-
-            for (int i = 0; i < n; i++)
-                ((ServerLevel) world).sendParticles(ParticleTypes.SNOWFLAKE, entity.getX(), entity.getY(), entity.getZ(), 0, Mth.randomBetween(world.getRandom(), -1.0F, 1.0F) * 0.083F, 0.05F, Mth.randomBetween(world.getRandom(), -1.0F, 1.0F) * 0.083F, 1.0F);
-        }
-
-        super.fallOn(world, state, pos, entity, damage);
     }
 
     @Override

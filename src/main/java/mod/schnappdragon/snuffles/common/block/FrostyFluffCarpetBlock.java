@@ -15,7 +15,7 @@ import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 
 public class FrostyFluffCarpetBlock extends CarpetBlock {
-    protected static final AABB TOUCH_AABB = new AABB(0.0D, 0.0625, 0.0D, 1.0D, 0.125D, 1.0D);
+    protected static final AABB TOUCH_AABB = new AABB(0.0D, 0.0625D, 0.0D, 1.0D, 0.125D, 1.0D);
 
     public FrostyFluffCarpetBlock(Properties properties) {
         super(properties);
