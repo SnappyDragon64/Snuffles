@@ -12,7 +12,7 @@ public class SnufflesSnowflakeParticle extends SnowflakeParticle {
         super(world, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet);
 
         this.quadSize = 0.05F * (this.random.nextFloat() * this.random.nextFloat() + 1.0F);
-        this.lifetime = (int) (40.0D / ((double) this.random.nextFloat() * 0.8D + 0.2D)) + 5;
+        this.lifetime = 240 + random.nextInt(160);
         this.setColor(0.923F, 0.964F, 0.999F);
         this.gravity = 0.08F;
         this.yd = ySpeed;
