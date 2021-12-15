@@ -15,6 +15,6 @@ public class SnufflesBiomeLoadingEvent {
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void modifyBiomes(BiomeLoadingEvent event) {
         if (event.getCategory() == Biome.BiomeCategory.ICY)
-            event.getSpawns().addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(SnufflesEntityTypes.SNUFFLE.get(), 5, 4, 4));
+            event.getSpawns().addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(SnufflesEntityTypes.SNUFFLE.get(), 4, 4, 4));
     }
 }
