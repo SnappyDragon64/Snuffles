@@ -4,6 +4,7 @@ import mod.schnappdragon.snuffles.client.renderer.SnufflesRenderLayers;
 import mod.schnappdragon.snuffles.core.misc.SnufflesFlammables;
 import mod.schnappdragon.snuffles.core.registry.SnuffleItems;
 import mod.schnappdragon.snuffles.core.registry.SnufflesBlocks;
+import mod.schnappdragon.snuffles.core.registry.SnufflesEntityTypes;
 import mod.schnappdragon.snuffles.core.registry.SnufflesParticleTypes;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -27,6 +28,7 @@ public class Snuffles {
 
         SnufflesBlocks.BLOCKS.register(modEventBus);
         SnuffleItems.ITEMS.register(modEventBus);
+        SnufflesEntityTypes.ENTITY_TYPES.register(modEventBus);
         SnufflesParticleTypes.PARTICLE_TYPES.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
