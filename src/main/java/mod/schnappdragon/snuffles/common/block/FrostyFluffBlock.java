@@ -10,14 +10,20 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
-public class FrostyFluffBlock extends SnuffleFluffBlock {
+public class FrostyFluffBlock extends Block {
     public FrostyFluffBlock(Properties properties) {
         super(properties);
+    }
+
+    @Override
+    public void fallOn(Level world, BlockState state, BlockPos pos, Entity entity, float damage) {
+        super.fallOn(world, state, pos, entity, damage * 0.5F);
     }
 
     @Override
@@ -41,5 +47,16 @@ public class FrostyFluffBlock extends SnuffleFluffBlock {
     public void animateTick(BlockState state, Level world, BlockPos pos, Random random) {
         if (!world.getBlockState(pos.below()).canOcclude())
             world.addParticle(SnufflesParticleTypes.SNOWFLAKE.get(), pos.getX() + random.nextDouble(), pos.getY() - 0.1F, pos.getZ() + random.nextDouble(), 0.0F, 0.0F, 0.0F);
+    }
+
+    @Override
+    public boolean isRandomlyTicking(BlockState state) {
+        return true;
+    }
+
+    @Override
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+        if (world.getBiome(pos).getBaseTemperature() >= 1.0F)
+            world.setBlock(pos, SnufflesBlocks.SNUFFLE_FLUFF.get().defaultBlockState(), 2);
     }
 }

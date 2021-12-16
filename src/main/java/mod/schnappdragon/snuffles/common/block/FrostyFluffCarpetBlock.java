@@ -14,6 +14,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Random;
+
 public class FrostyFluffCarpetBlock extends CarpetBlock {
     protected static final AABB TOUCH_AABB = new AABB(0.0D, 0.0625D, 0.0D, 1.0D, 0.125D, 1.0D);
 
@@ -37,5 +39,16 @@ public class FrostyFluffCarpetBlock extends CarpetBlock {
         }
 
         super.entityInside(state, world, pos, entity);
+    }
+
+    @Override
+    public boolean isRandomlyTicking(BlockState state) {
+        return true;
+    }
+
+    @Override
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+        if (world.getBiome(pos).getBaseTemperature() >= 1.0F)
+            world.setBlock(pos, SnufflesBlocks.SNUFFLE_FLUFF_CARPET.get().defaultBlockState(), 2);
     }
 }
