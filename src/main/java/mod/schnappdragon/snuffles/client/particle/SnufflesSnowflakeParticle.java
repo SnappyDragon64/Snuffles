@@ -5,6 +5,7 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SnowflakeParticle;
 import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 
 public class SnufflesSnowflakeParticle extends SnowflakeParticle {
@@ -16,6 +17,15 @@ public class SnufflesSnowflakeParticle extends SnowflakeParticle {
         this.setColor(0.923F, 0.964F, 0.999F);
         this.gravity = 0.08F;
         this.yd = ySpeed;
+    }
+
+    public void tick() {
+        super.tick();
+
+        if (!this.level.getFluidState(new BlockPos(this.x, this.y, this.z)).isEmpty())
+            this.remove();
+        else if (this.onGround)
+            this.age++;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
