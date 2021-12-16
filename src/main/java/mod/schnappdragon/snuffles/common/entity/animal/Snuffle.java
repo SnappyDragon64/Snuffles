@@ -1,13 +1,17 @@
 package mod.schnappdragon.snuffles.common.entity.animal;
 
 import mod.schnappdragon.snuffles.core.registry.SnufflesEntityTypes;
+import mod.schnappdragon.snuffles.core.registry.SnufflesParticleTypes;
 import mod.schnappdragon.snuffles.core.tags.SnufflesBlockTags;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -18,12 +22,15 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
 public class Snuffle extends Animal {
+    private static final EntityDataAccessor<Boolean> DATA_FROSTY = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.BOOLEAN);
+
     public Snuffle(EntityType<Snuffle> snuffle, Level world) {
         super(snuffle, world);
     }
@@ -51,9 +58,62 @@ public class Snuffle extends Animal {
         return new Vec3(0.0D, 0.6F * this.getEyeHeight(), this.getBbWidth() * 0.4F);
     }
 
+    /*
+     * Data Methods
+     */
+
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(DATA_FROSTY, false);
+    }
+
+    public void addAdditionalSaveData(CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putBoolean("Frosty", this.isFrosty());
+    }
+
+    public void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        this.setFrosty(compound.getBoolean("Frosty"));
+    }
+
+    public void setFrosty(boolean isFrosty) {
+        this.entityData.set(DATA_FROSTY, isFrosty);
+    }
+
+    public boolean isFrosty() {
+        return this.entityData.get(DATA_FROSTY);
+    }
+
+    /*
+     * Frost Methods
+     */
+
+    @Override
+    public void aiStep() {
+        super.aiStep();
+
+        if (this.level.isClientSide && this.isFrosty() && this.getDeltaMovement().lengthSqr() > 0.01D && this.getRandom().nextBoolean())
+            this.level.addParticle(SnufflesParticleTypes.SNOWFLAKE.get(), this.getRandomX(0.4D), this.getRandomY(), this.getRandomZ(0.4D), 0.0D, 0.0D, 0.0D);
+    }
+
+    /*
+     * Spawning Methods
+     */
+
     public static boolean checkSnuffleSpawnRules(EntityType<Snuffle> snuffle, LevelAccessor world, MobSpawnType spawnType, BlockPos pos, Random random) {
         return world.getBlockState(pos.below()).is(SnufflesBlockTags.SNUFFLES_SPAWNABLE_ON) && isBrightEnoughToSpawn(world, pos);
     }
+
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData groupData, @Nullable CompoundTag compound) {
+        this.setFrosty(world.getBiome(this.blockPosition()).coldEnoughToSnow(this.blockPosition()));
+        return super.finalizeSpawn(world, difficulty, spawnType, groupData, compound);
+    }
+
+    /*
+     * Breeding Methods
+     */
 
     @Nullable
     @Override
