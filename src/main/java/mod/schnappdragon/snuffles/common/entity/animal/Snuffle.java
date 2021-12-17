@@ -4,7 +4,6 @@ import mod.schnappdragon.snuffles.core.registry.SnufflesEntityTypes;
 import mod.schnappdragon.snuffles.core.registry.SnufflesParticleTypes;
 import mod.schnappdragon.snuffles.core.tags.SnufflesBlockTags;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -14,6 +13,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.LookControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
@@ -33,6 +33,7 @@ public class Snuffle extends Animal {
 
     public Snuffle(EntityType<Snuffle> snuffle, Level world) {
         super(snuffle, world);
+        this.lookControl = new Snuffle.SnuffleLookControl();
     }
 
     public static AttributeSupplier.Builder registerAttributes() {
@@ -124,5 +125,25 @@ public class Snuffle extends Animal {
     @Override
     public boolean isFood(ItemStack stack) {
         return stack.is(Items.COOKIE);
+    }
+
+    /*
+     * Controllers
+     */
+
+    public class SnuffleLookControl extends LookControl {
+        public SnuffleLookControl() {
+            super(Snuffle.this);
+        }
+
+        public void tick() {
+            if (this.lookAtCooldown > 0) {
+                --this.lookAtCooldown;
+                this.getYRotD().ifPresent(yRotD -> this.mob.setYRot(this.rotateTowards(this.mob.getYRot(), yRotD, this.yMaxRotSpeed)));
+            } else {
+                this.mob.yHeadRot = this.rotateTowards(this.mob.yHeadRot, this.mob.yBodyRot, 10.0F);
+                this.mob.setYRot(this.rotateTowards(this.mob.getYRot(), this.mob.yBodyRot, 10.0F));
+            }
+        }
     }
 }

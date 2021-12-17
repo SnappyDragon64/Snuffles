@@ -11,7 +11,6 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 
 public class SnuffleModel<T extends Snuffle> extends EntityModel<T> {
-    private final ModelPart root;
     private final ModelPart body;
     private final ModelPart tongue;
     private final ModelPart extra;
@@ -21,7 +20,6 @@ public class SnuffleModel<T extends Snuffle> extends EntityModel<T> {
     private final ModelPart leftHindLeg;
 
     public SnuffleModel(ModelPart part) {
-        this.root = part;
         this.body = part.getChild("body");
         this.tongue = this.body.getChild("tongue");
         this.extra = part.getChild("extra");
@@ -66,8 +64,6 @@ public class SnuffleModel<T extends Snuffle> extends EntityModel<T> {
     }
 
     public void setupAnim(Snuffle snuffle, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        this.root.yRot = netHeadYaw * ((float)Math.PI / 180F);
-
         this.body.zRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.1F * limbSwingAmount;
         this.extra.zRot = this.body.zRot;
 
