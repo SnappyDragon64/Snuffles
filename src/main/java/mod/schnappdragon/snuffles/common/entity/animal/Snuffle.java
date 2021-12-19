@@ -11,6 +11,8 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -19,6 +21,7 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -135,7 +138,7 @@ public class Snuffle extends Animal {
                 this.setFrosty(true);
 
             if (this.isOnFire() && this.isFrosty()) {
-                this.setSharedFlagOnFire(false);
+                this.clearFire();
                 this.setFrosty(false);
             }
         } else {
@@ -153,6 +156,22 @@ public class Snuffle extends Animal {
             return false;
         else
             return world.getBiome(pos).coldEnoughToSnow(pos);
+    }
+
+    @Override
+    public InteractionResult mobInteract(Player player, InteractionHand hand) {
+        ItemStack stack = player.getItemInHand(hand);
+
+        if (stack.is(Items.MAGMA_CREAM) && this.isFrosty()) {
+            if (!this.level.isClientSide) {
+                this.usePlayerItem(player, hand, stack);
+                this.setFrosty(false);
+            }
+
+            return InteractionResult.sidedSuccess(this.level.isClientSide);
+        }
+
+        return super.mobInteract(player, hand);
     }
 
     /*
