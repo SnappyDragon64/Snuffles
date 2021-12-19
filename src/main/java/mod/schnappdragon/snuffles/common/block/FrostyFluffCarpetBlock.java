@@ -48,7 +48,7 @@ public class FrostyFluffCarpetBlock extends CarpetBlock {
 
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
-        if (world.getBiome(pos).getBaseTemperature() >= 1.0F)
+        if (world.getBiome(pos).getBaseTemperature() >= 1.0F && world.isDay() && !world.isRaining())
             world.setBlock(pos, SnufflesBlocks.SNUFFLE_FLUFF_CARPET.get().defaultBlockState(), 2);
     }
 }

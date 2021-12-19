@@ -23,6 +23,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,6 +32,9 @@ import java.util.Random;
 
 public class Snuffle extends Animal {
     private static final EntityDataAccessor<Boolean> DATA_FROSTY = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> IS_CRAVING = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.BOOLEAN);
+
+    private int frostTicks;
 
     public Snuffle(EntityType<Snuffle> snuffle, Level world) {
         super(snuffle, world);
@@ -66,16 +71,19 @@ public class Snuffle extends Animal {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(DATA_FROSTY, false);
+        this.entityData.define(IS_CRAVING, false);
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putBoolean("Frosty", this.isFrosty());
+        compound.putInt("FrostTicks", this.frostTicks);
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.setFrosty(compound.getBoolean("Frosty"));
+        this.frostTicks = compound.getInt("FrostTicks");
     }
 
     public void setFrosty(boolean isFrosty) {
@@ -86,16 +94,65 @@ public class Snuffle extends Animal {
         return this.entityData.get(DATA_FROSTY);
     }
 
+    public void setCraving(boolean isCraving) {
+        this.entityData.set(IS_CRAVING, isCraving);
+    }
+
+    public boolean isCraving() {
+        return this.entityData.get(IS_CRAVING);
+    }
+
     /*
      * Frost Methods
      */
 
     @Override
+    protected void customServerAiStep() {
+        super.customServerAiStep();
+
+        if (this.frostTicks > 0) {
+            --this.frostTicks;
+        } else {
+            if (this.isFrosty()) {
+                Biome biome = this.level.getBiome(this.blockPosition());
+                if (biome.getBaseTemperature() >= 1.0F && this.level.isDay() && !this.level.isRaining())
+                    this.setFrosty(false);
+            } else {
+                if (this.isInSnow(this.level, this.blockPosition()))
+                    this.setFrosty(true);
+            }
+
+            this.frostTicks = this.getRandom().nextInt(140);
+        }
+    }
+
+    @Override
     public void aiStep() {
         super.aiStep();
 
-        if (this.level.isClientSide && this.isFrosty() && this.getDeltaMovement().lengthSqr() > 0.01D && this.getRandom().nextBoolean())
-            this.level.addParticle(SnufflesParticleTypes.SNOWFLAKE.get(), this.getRandomX(0.4D), this.getRandomY(), this.getRandomZ(0.4D), 0.0D, 0.0D, 0.0D);
+        if (!this.level.isClientSide) {
+            if (this.isInPowderSnow)
+                this.setFrosty(true);
+
+            if (this.isOnFire() && this.isFrosty()) {
+                this.setSharedFlagOnFire(false);
+                this.setFrosty(false);
+            }
+        } else {
+            if (this.isFrosty() && this.getDeltaMovement().lengthSqr() > 0.0081D && this.getRandom().nextBoolean())
+                this.level.addParticle(SnufflesParticleTypes.SNOWFLAKE.get(), this.getRandomX(0.4D), this.getRandomY(), this.getRandomZ(0.4D), 0.0D, 0.0D, 0.0D);
+        }
+    }
+
+    private boolean isInSnow(Level world, BlockPos pos) {
+        if (!world.isRaining())
+            return false;
+        else if (!world.canSeeSky(pos))
+            return false;
+        else if (world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pos).getY() > pos.getY())
+            return false;
+        else
+            return world.getBiome(pos).coldEnoughToSnow(pos);
     }
 
     /*
@@ -140,10 +197,8 @@ public class Snuffle extends Animal {
             if (this.lookAtCooldown > 0) {
                 --this.lookAtCooldown;
                 this.getYRotD().ifPresent(yRotD -> this.mob.setYRot(this.rotateTowards(this.mob.getYRot(), yRotD, this.yMaxRotSpeed)));
-            } else {
-                this.mob.yHeadRot = this.rotateTowards(this.mob.yHeadRot, this.mob.yBodyRot, 10.0F);
+            } else
                 this.mob.setYRot(this.rotateTowards(this.mob.getYRot(), this.mob.yBodyRot, 10.0F));
-            }
         }
     }
 }

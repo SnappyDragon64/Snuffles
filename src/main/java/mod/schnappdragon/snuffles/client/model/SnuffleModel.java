@@ -70,7 +70,7 @@ public class SnuffleModel<T extends Snuffle> extends EntityModel<T> {
         this.body.zRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.1F * limbSwingAmount;
         this.extra.zRot = this.body.zRot;
 
-        this.tongue.xRot = 0.2618F + Mth.sin(ageInTicks * 0.067F) * 0.16F;
+        this.tongue.xRot = 0.3927F + Mth.sin(ageInTicks * 0.067F + limbSwing) * 0.16F;
 
         this.rightHindLeg.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
         this.leftHindLeg.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;

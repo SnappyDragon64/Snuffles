@@ -56,7 +56,7 @@ public class FrostyFluffBlock extends Block {
 
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
-        if (world.getBiome(pos).getBaseTemperature() >= 1.0F)
+        if (world.getBiome(pos).getBaseTemperature() >= 1.0F && world.isDay() && !world.isRaining())
             world.setBlock(pos, SnufflesBlocks.SNUFFLE_FLUFF.get().defaultBlockState(), 2);
     }
 }
