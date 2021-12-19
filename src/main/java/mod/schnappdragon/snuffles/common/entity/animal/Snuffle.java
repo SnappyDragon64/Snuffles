@@ -3,6 +3,7 @@ package mod.schnappdragon.snuffles.common.entity.animal;
 import mod.schnappdragon.snuffles.core.registry.SnufflesEntityTypes;
 import mod.schnappdragon.snuffles.core.registry.SnufflesParticleTypes;
 import mod.schnappdragon.snuffles.core.tags.SnufflesBlockTags;
+import mod.schnappdragon.snuffles.core.tags.SnufflesItemTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -18,7 +19,6 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -52,7 +52,7 @@ public class Snuffle extends Animal {
         this.goalSelector.addGoal(1, new FloatGoal(this));
         this.goalSelector.addGoal(2, new PanicGoal(this, 1.5D));
         this.goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(4, new Snuffle.SnuffleTemptGoal(1.1D, Ingredient.of(Items.COOKIE), false));
+        this.goalSelector.addGoal(4, new Snuffle.SnuffleTemptGoal(1.1D, Ingredient.of(SnufflesItemTags.SNUFFLE_FOOD), false));
         this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.1D));
         this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
@@ -181,7 +181,7 @@ public class Snuffle extends Animal {
 
     @Override
     public boolean isFood(ItemStack stack) {
-        return stack.is(Items.COOKIE);
+        return stack.is(SnufflesItemTags.SNUFFLE_FOOD);
     }
 
     /*
