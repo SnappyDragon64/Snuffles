@@ -37,7 +37,7 @@ public class SnuffleModel<T extends Snuffle> extends EntityModel<T> {
         PartDefinition partdefinition = meshdefinition.getRoot();
         PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 24.0F, 0.0F, -0.0436F, 0.0F, 0.0F));
         body.addOrReplaceChild("torso", CubeListBuilder.create().texOffs(0, 25).addBox(-9.0F, -6.0F, -10.0F, 18.0F, 11.0F, 20.0F), PartPose.offset(0.0F, -10.0F, 0.0F));
-        body.addOrReplaceChild("tongue", CubeListBuilder.create().texOffs(48, 0).addBox(-6.0F, 0.0F, -7.0F, 12.0F, 0.0F, 8.0F), PartPose.offsetAndRotation(0.0F, -6.0F, -10.0F, 0.2618F, 0.0F, 0.0F));
+        body.addOrReplaceChild("tongue", CubeListBuilder.create().texOffs(48, 0).addBox(-6.0F, 0.0F, -7.0F, 12.0F, 0.0F, 8.0F), PartPose.offsetAndRotation(0.0F, -6.0F, -10.0F, 0.3927F, 0.0F, 0.0F));
         PartDefinition extra = partdefinition.addOrReplaceChild("extra", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 24.0F, 0.0F, -0.0436F, 0.0F, 0.0F));
         extra.addOrReplaceChild("fluff", CubeListBuilder.create().texOffs(0, 0).addBox(-9.0F, 5.0F, -10.0F, 18.0F, 5.0F, 20.0F), PartPose.offset(0.0F, -10.0F, 0.0F));
         extra.addOrReplaceChild("right_horn", CubeListBuilder.create().texOffs(102, 0).addBox(-3.0F, -7.0F, -6.0F, 3.0F, 8.0F, 8.0F), PartPose.offsetAndRotation(-9.0F, -14.0F, -6.0F, 0.0873F, 0.0F, 0.0F));
@@ -70,11 +70,11 @@ public class SnuffleModel<T extends Snuffle> extends EntityModel<T> {
         this.body.zRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.1F * limbSwingAmount;
         this.extra.zRot = this.body.zRot;
 
-        this.tongue.xRot = 0.3927F + Mth.sin(ageInTicks * 0.067F + limbSwing) * 0.16F;
-
         this.rightHindLeg.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
         this.leftHindLeg.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
         this.rightFrontLeg.xRot = this.leftHindLeg.xRot;
         this.leftFrontLeg.xRot = this.rightHindLeg.xRot;
+
+        this.tongue.xRot = 0.3927F + Mth.sin(ageInTicks * (snuffle.isCraving() ? 0.6662F : 0.067F) + limbSwing * 0.6662F) * 0.2F;
     }
 }

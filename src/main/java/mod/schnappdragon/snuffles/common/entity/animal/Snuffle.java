@@ -52,7 +52,7 @@ public class Snuffle extends Animal {
         this.goalSelector.addGoal(1, new FloatGoal(this));
         this.goalSelector.addGoal(2, new PanicGoal(this, 1.5D));
         this.goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(4, new TemptGoal(this, 1.1D, Ingredient.of(Items.COOKIE), false));
+        this.goalSelector.addGoal(4, new Snuffle.SnuffleTemptGoal(1.1D, Ingredient.of(Items.COOKIE), false));
         this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.1D));
         this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
@@ -199,6 +199,26 @@ public class Snuffle extends Animal {
                 this.getYRotD().ifPresent(yRotD -> this.mob.setYRot(this.rotateTowards(this.mob.getYRot(), yRotD, this.yMaxRotSpeed)));
             } else
                 this.mob.setYRot(this.rotateTowards(this.mob.getYRot(), this.mob.yBodyRot, 10.0F));
+        }
+    }
+
+    /*
+     * AI Goals
+     */
+
+    class SnuffleTemptGoal extends TemptGoal {
+        public SnuffleTemptGoal(double speedModifier, Ingredient items, boolean canScare) {
+            super(Snuffle.this, speedModifier, items, canScare);
+        }
+
+        public void start() {
+            super.start();
+            Snuffle.this.setCraving(true);
+        }
+
+        public void stop() {
+            super.stop();
+            Snuffle.this.setCraving(false);
         }
     }
 }
