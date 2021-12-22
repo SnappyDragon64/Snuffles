@@ -5,7 +5,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -29,11 +28,11 @@ public class SnuffleFluffBlock extends Block {
 
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
-        if (this.isInSnow(world, pos.above()))
+        if (this.isSnowingAt(world, pos.above()))
             world.setBlock(pos, SnufflesBlocks.FROSTY_FLUFF.get().defaultBlockState(), 2);
     }
 
-    private boolean isInSnow(ServerLevel world, BlockPos pos) {
+    private boolean isSnowingAt(ServerLevel world, BlockPos pos) {
         if (!world.isRaining())
             return false;
         else if (!world.canSeeSky(pos))

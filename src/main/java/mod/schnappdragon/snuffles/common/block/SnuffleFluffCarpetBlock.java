@@ -21,11 +21,11 @@ public class SnuffleFluffCarpetBlock extends CarpetBlock {
 
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
-        if (this.isInSnow(world, pos))
+        if (this.isSnowingAt(world, pos))
             world.setBlock(pos, SnufflesBlocks.FROSTY_FLUFF_CARPET.get().defaultBlockState(), 2);
     }
 
-    private boolean isInSnow(ServerLevel world, BlockPos pos) {
+    private boolean isSnowingAt(ServerLevel world, BlockPos pos) {
         if (!world.isRaining())
             return false;
         else if (!world.canSeeSky(pos))
