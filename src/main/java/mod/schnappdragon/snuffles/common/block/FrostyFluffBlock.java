@@ -48,15 +48,4 @@ public class FrostyFluffBlock extends Block {
         if (!world.getBlockState(pos.below()).canOcclude())
             world.addParticle(SnufflesParticleTypes.SNOWFLAKE.get(), pos.getX() + random.nextDouble(), pos.getY() - 0.1F, pos.getZ() + random.nextDouble(), 0.0F, 0.0F, 0.0F);
     }
-
-    @Override
-    public boolean isRandomlyTicking(BlockState state) {
-        return true;
-    }
-
-    @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
-        if (world.getBiome(pos).getBaseTemperature() >= 1.0F && world.isDay() && !world.isRaining())
-            world.setBlock(pos, SnufflesBlocks.SNUFFLE_FLUFF.get().defaultBlockState(), 2);
-    }
 }

@@ -14,8 +14,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Random;
-
 public class FrostyFluffCarpetBlock extends CarpetBlock {
     protected static final AABB TOUCH_AABB = new AABB(0.0D, 0.0625D, 0.0D, 1.0D, 0.125D, 1.0D);
 
@@ -33,22 +31,11 @@ public class FrostyFluffCarpetBlock extends CarpetBlock {
         if (!world.isClientSide) {
             AABB aabb = TOUCH_AABB.move(pos);
             if (world.getEntities(null, aabb).contains(entity)) {
-                if ((entity.xOld != entity.getX() || entity.yOld != entity.getY() || entity.zOld != entity.getZ()) && world.getRandom().nextBoolean())
+                if (!entity.isSteppingCarefully() && (entity.xOld != entity.getX() || entity.yOld != entity.getY() || entity.zOld != entity.getZ()) && world.getRandom().nextBoolean())
                     ((ServerLevel) world).sendParticles(SnufflesParticleTypes.SNOWFLAKE.get(), entity.getX(), entity.getY(), entity.getZ(), 0, Mth.randomBetween(world.getRandom(), -1.0F, 1.0F) * 0.083F, 0.05F, Mth.randomBetween(world.getRandom(), -1.0F, 1.0F) * 0.083F, 1.0F);
             }
         }
 
         super.entityInside(state, world, pos, entity);
-    }
-
-    @Override
-    public boolean isRandomlyTicking(BlockState state) {
-        return true;
-    }
-
-    @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
-        if (world.getBiome(pos).getBaseTemperature() >= 1.0F && world.isDay() && !world.isRaining())
-            world.setBlock(pos, SnufflesBlocks.SNUFFLE_FLUFF_CARPET.get().defaultBlockState(), 2);
     }
 }

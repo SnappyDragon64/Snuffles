@@ -18,7 +18,7 @@ public class SnufflesBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Snuffles.MODID);
 
     public static final RegistryObject<Block> SNUFFLE_FLUFF = BLOCKS.register("snuffle_fluff", () -> new SnuffleFluffBlock(BlockBehaviour.Properties.of(Material.WOOL, MaterialColor.SNOW).randomTicks().strength(0.6F).sound(SoundType.WOOL)));
-    public static final RegistryObject<Block> FROSTY_FLUFF = BLOCKS.register("frosty_fluff", () -> new FrostyFluffBlock(BlockBehaviour.Properties.of(Material.WOOL, MaterialColor.SNOW).randomTicks().strength(0.6F).sound(SoundType.WOOL)));
+    public static final RegistryObject<Block> FROSTY_FLUFF = BLOCKS.register("frosty_fluff", () -> new FrostyFluffBlock(BlockBehaviour.Properties.of(Material.WOOL, MaterialColor.SNOW).strength(0.6F).sound(SoundType.WOOL)));
     public static final RegistryObject<Block> SNUFFLE_FLUFF_CARPET = BLOCKS.register("snuffle_fluff_carpet", () -> new SnuffleFluffCarpetBlock(BlockBehaviour.Properties.of(Material.CLOTH_DECORATION, MaterialColor.SNOW).randomTicks().strength(0.1F).sound(SoundType.WOOL)));
-    public static final RegistryObject<Block> FROSTY_FLUFF_CARPET = BLOCKS.register("frosty_fluff_carpet", () -> new FrostyFluffCarpetBlock(BlockBehaviour.Properties.of(Material.CLOTH_DECORATION, MaterialColor.SNOW).randomTicks().strength(0.1F).sound(SoundType.WOOL)));
+    public static final RegistryObject<Block> FROSTY_FLUFF_CARPET = BLOCKS.register("frosty_fluff_carpet", () -> new FrostyFluffCarpetBlock(BlockBehaviour.Properties.of(Material.CLOTH_DECORATION, MaterialColor.SNOW).strength(0.1F).sound(SoundType.WOOL)));
 }
