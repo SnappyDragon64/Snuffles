@@ -25,7 +25,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -111,19 +110,15 @@ public class Snuffle extends Animal {
     protected void customServerAiStep() {
         super.customServerAiStep();
 
-        if (this.frostTicks > 0) {
-            --this.frostTicks;
-        } else {
-            if (this.isFrosty()) {
-                Biome biome = this.level.getBiome(this.blockPosition());
-                if (biome.getBaseTemperature() >= 1.0F && this.level.isDay() && !this.level.isRaining())
-                    this.setFrosty(false);
-            } else {
-                if (this.isInSnow(this.level, this.blockPosition()))
+        if (!this.isFrosty()) {
+            if (this.frostTicks > 0)
+                --this.frostTicks;
+            else {
+                if (this.isSnowingAt(this.level, this.blockPosition()))
                     this.setFrosty(true);
-            }
 
-            this.frostTicks = this.getRandom().nextInt(140);
+                this.frostTicks = this.getRandom().nextInt(140);
+            }
         }
     }
 
@@ -145,7 +140,7 @@ public class Snuffle extends Animal {
         }
     }
 
-    private boolean isInSnow(Level world, BlockPos pos) {
+    private boolean isSnowingAt(Level world, BlockPos pos) {
         if (!world.isRaining())
             return false;
         else if (!world.canSeeSky(pos))
