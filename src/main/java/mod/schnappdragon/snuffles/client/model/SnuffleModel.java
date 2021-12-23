@@ -75,6 +75,6 @@ public class SnuffleModel<T extends Snuffle> extends EntityModel<T> {
         this.rightFrontLeg.xRot = this.leftHindLeg.xRot;
         this.leftFrontLeg.xRot = this.rightHindLeg.xRot;
 
-        this.tongue.xRot = 0.3927F + Mth.sin(ageInTicks * (snuffle.isCraving() ? 0.75F : 0.1F)) * 0.2F;
+        this.tongue.xRot = 0.3927F + Mth.sin(ageInTicks * (snuffle.isCraving() ? 0.8F : 0.1F)) * 0.2F;
     }
 }
