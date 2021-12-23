@@ -10,6 +10,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -32,6 +33,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Random;
 
 public class Snuffle extends Animal {
+    private static final EntityDataAccessor<Integer> DATA_HAIRSTYLE_ID = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> DATA_FROSTY = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> IS_CRAVING = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.BOOLEAN);
 
@@ -70,20 +72,31 @@ public class Snuffle extends Animal {
 
     protected void defineSynchedData() {
         super.defineSynchedData();
+        this.entityData.define(DATA_HAIRSTYLE_ID, 0);
         this.entityData.define(DATA_FROSTY, false);
         this.entityData.define(IS_CRAVING, false);
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
+        compound.putInt("Hairstyle", this.getHairstyle());
         compound.putBoolean("Frosty", this.isFrosty());
         compound.putInt("FrostTicks", this.frostTicks);
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
+        this.setHairstyle(compound.getInt("Hairstyle"));
         this.setFrosty(compound.getBoolean("Frosty"));
         this.frostTicks = compound.getInt("FrostTicks");
+    }
+
+    public void setHairstyle(int id) {
+        this.entityData.set(DATA_HAIRSTYLE_ID, id);
+    }
+
+    public int getHairstyle() {
+        return Mth.clamp(this.entityData.get(DATA_HAIRSTYLE_ID), 0, 3);
     }
 
     public void setFrosty(boolean isFrosty) {
@@ -155,7 +168,14 @@ public class Snuffle extends Animal {
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
-        if (stack.is(Items.MAGMA_CREAM) && this.isFrosty()) {
+        if (stack.is(Items.SLIME_BALL)) {
+            if (!this.level.isClientSide) {
+                this.usePlayerItem(player, hand, stack);
+                this.setHairstyle((this.getHairstyle() + 1) % 4);
+            }
+
+            return InteractionResult.sidedSuccess(this.level.isClientSide);
+        } else if (stack.is(Items.MAGMA_CREAM) && this.isFrosty()) {
             if (!this.level.isClientSide) {
                 this.usePlayerItem(player, hand, stack);
                 this.setFrosty(false);

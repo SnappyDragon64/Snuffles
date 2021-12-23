@@ -9,8 +9,18 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
 public class SnuffleRenderer extends MobRenderer<Snuffle, SnuffleModel<Snuffle>> {
-    private static final ResourceLocation SNUFFLE_TEXTURES = new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/snuffle.png");
-    private static final ResourceLocation FROSTY_TEXTURES = new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/frosty.png");
+    private static final ResourceLocation[] SNUFFLE_TEXTURES = {
+            new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/snuffle_default.png"),
+            new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/snuffle_sheepdog.png"),
+            new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/snuffle_poro.png"),
+            new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/snuffle_horseshoe.png")
+    };
+    private static final ResourceLocation[] FROSTY_TEXTURES = {
+            new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/frosty_default.png"),
+            new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/frosty_sheepdog.png"),
+            new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/frosty_poro.png"),
+            new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/frosty_horseshoe.png")
+    };
 
     public SnuffleRenderer(EntityRendererProvider.Context context) {
         super(context, new SnuffleModel<>(context.bakeLayer(SnufflesModelLayers.SNUFFLE)), 0.7F);
@@ -18,6 +28,7 @@ public class SnuffleRenderer extends MobRenderer<Snuffle, SnuffleModel<Snuffle>>
 
     @Override
     public ResourceLocation getTextureLocation(Snuffle snuffle) {
-        return snuffle.isFrosty() ? FROSTY_TEXTURES : SNUFFLE_TEXTURES;
+        int i = snuffle.getHairstyle();
+        return snuffle.isFrosty() ? FROSTY_TEXTURES[i] : SNUFFLE_TEXTURES[i];
     }
 }
