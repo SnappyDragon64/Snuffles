@@ -1,6 +1,7 @@
 package mod.schnappdragon.snuffles.core;
 
 import mod.schnappdragon.snuffles.client.renderer.SnufflesRenderLayers;
+import mod.schnappdragon.snuffles.core.dispenser.SnufflesShearsDispenseItemBehavior;
 import mod.schnappdragon.snuffles.core.misc.SnufflesFlammables;
 import mod.schnappdragon.snuffles.core.misc.SnufflesSpawns;
 import mod.schnappdragon.snuffles.core.registry.SnuffleItems;
@@ -39,6 +40,7 @@ public class Snuffles {
         event.enqueueWork(() -> {
             SnufflesSpawns.registerSpawns();
             SnufflesFlammables.registerFlammables();
+            SnufflesShearsDispenseItemBehavior.registerDispenserBehaviors();
         });
     }
 

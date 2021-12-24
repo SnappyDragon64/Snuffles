@@ -17,7 +17,7 @@ public class SnuffleFluffLayer<T extends Snuffle, M extends SnuffleModel<T>> ext
     private static final Pair<ResourceLocation, ResourceLocation> FLUFF = Pair.of(
             new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/snuffle_fluff.png"),
             new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/frosty_fluff.png")
-            );
+    );
     private static final Pair<ResourceLocation, ResourceLocation> FLUFF_HORSESHOE = Pair.of(
             new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/snuffle_fluff_horseshoe.png"),
             new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/frosty_fluff_horseshoe.png")

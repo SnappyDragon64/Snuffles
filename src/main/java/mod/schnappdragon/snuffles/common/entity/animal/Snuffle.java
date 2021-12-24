@@ -1,5 +1,6 @@
 package mod.schnappdragon.snuffles.common.entity.animal;
 
+import mod.schnappdragon.snuffles.core.registry.SnufflesBlocks;
 import mod.schnappdragon.snuffles.core.registry.SnufflesEntityTypes;
 import mod.schnappdragon.snuffles.core.registry.SnufflesParticleTypes;
 import mod.schnappdragon.snuffles.core.tags.SnufflesBlockTags;
@@ -26,13 +27,17 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.IForgeShearable;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Random;
 
-public class Snuffle extends Animal {
+public class Snuffle extends Animal implements IForgeShearable {
     private static final EntityDataAccessor<Integer> DATA_HAIRSTYLE_ID = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> DATA_FLUFF = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> DATA_FROSTY = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.BOOLEAN);
@@ -82,7 +87,7 @@ public class Snuffle extends Animal {
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("Hairstyle", this.getHairstyle());
-        compound.putBoolean("Fluff", this.hasFluff());
+        compound.putBoolean("HasFluff", this.hasFluff());
         compound.putBoolean("Frosty", this.isFrosty());
         compound.putInt("FrostTicks", this.frostTicks);
     }
@@ -90,7 +95,7 @@ public class Snuffle extends Animal {
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.setHairstyle(compound.getInt("Hairstyle"));
-        this.setFluff(compound.getBoolean("Fluff"));
+        this.setFluff(compound.getBoolean("HasFluff"));
         this.setFrosty(compound.getBoolean("Frosty"));
         this.frostTicks = compound.getInt("FrostTicks");
     }
@@ -200,6 +205,23 @@ public class Snuffle extends Animal {
     }
 
     /*
+     * Shearing Methods
+     */
+
+    @Override
+    public boolean isShearable(@NotNull ItemStack item, Level world, BlockPos pos) {
+        return this.isAlive() && !this.isBaby() && this.hasFluff();
+    }
+
+    @NotNull
+    @Override
+    public List<ItemStack> onSheared(@Nullable Player player, @NotNull ItemStack item, Level world, BlockPos pos, int fortune) {
+        this.setFluff(false);
+        this.level.gameEvent(player, GameEvent.SHEAR, pos);
+        return List.of(new ItemStack(this.isFrosty() ? SnufflesBlocks.FROSTY_FLUFF.get() : SnufflesBlocks.SNUFFLE_FLUFF.get()));
+    }
+
+    /*
      * Spawning Methods
      */
 
@@ -209,8 +231,10 @@ public class Snuffle extends Animal {
 
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData groupData, @Nullable CompoundTag compound) {
+        SpawnGroupData data = super.finalizeSpawn(world, difficulty, spawnType, groupData, compound);
         this.setFrosty(world.getBiome(this.blockPosition()).coldEnoughToSnow(this.blockPosition()));
-        return super.finalizeSpawn(world, difficulty, spawnType, groupData, compound);
+        if (!this.isBaby()) this.setFluff(true);
+        return data;
     }
 
     /*
