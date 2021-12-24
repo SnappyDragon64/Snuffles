@@ -35,7 +35,7 @@ public class SnuffleFluffLayer<T extends Snuffle, M extends SnuffleModel<T>> ext
     }
 
     public ResourceLocation getTextureLocation(Snuffle snuffle) {
-        Pair<ResourceLocation, ResourceLocation> fluff = snuffle.getHairstyle() == 3 ? FLUFF_HORSESHOE : FLUFF;
+        Pair<ResourceLocation, ResourceLocation> fluff = snuffle.getHairstyle() == Snuffle.Hairstyle.HORSESHOE ? FLUFF_HORSESHOE : FLUFF;
         return snuffle.isFrosty() ? fluff.getRight() : fluff.getLeft();
     }
 }

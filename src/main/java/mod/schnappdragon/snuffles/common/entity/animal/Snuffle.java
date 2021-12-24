@@ -86,7 +86,7 @@ public class Snuffle extends Animal implements IForgeShearable {
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.putInt("Hairstyle", this.getHairstyle());
+        compound.putInt("Hairstyle", this.getHairstyleId());
         compound.putBoolean("HasFluff", this.hasFluff());
         compound.putBoolean("Frosty", this.isFrosty());
         compound.putInt("FrostTicks", this.frostTicks);
@@ -94,18 +94,22 @@ public class Snuffle extends Animal implements IForgeShearable {
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        this.setHairstyle(compound.getInt("Hairstyle"));
+        this.setHairstyleId(compound.getInt("Hairstyle"));
         this.setFluff(compound.getBoolean("HasFluff"));
         this.setFrosty(compound.getBoolean("Frosty"));
         this.frostTicks = compound.getInt("FrostTicks");
     }
 
-    public void setHairstyle(int id) {
+    public void setHairstyleId(int id) {
         this.entityData.set(DATA_HAIRSTYLE_ID, id);
     }
 
-    public int getHairstyle() {
+    public int getHairstyleId() {
         return Mth.clamp(this.entityData.get(DATA_HAIRSTYLE_ID), 0, 3);
+    }
+
+    public Snuffle.Hairstyle getHairstyle() {
+        return Snuffle.Hairstyle.getHairstyleById(this.getHairstyleId());
     }
 
     public void setFluff(boolean hasFluff) {
@@ -188,7 +192,7 @@ public class Snuffle extends Animal implements IForgeShearable {
         if (stack.is(Items.SLIME_BALL)) {
             if (!this.level.isClientSide) {
                 this.usePlayerItem(player, hand, stack);
-                this.setHairstyle((this.getHairstyle() + 1) % 4);
+                this.setHairstyleId((this.getHairstyleId() + 1) % 4);
             }
 
             return InteractionResult.sidedSuccess(this.level.isClientSide);
@@ -250,6 +254,21 @@ public class Snuffle extends Animal implements IForgeShearable {
     @Override
     public boolean isFood(ItemStack stack) {
         return stack.is(SnufflesItemTags.SNUFFLE_FOOD);
+    }
+
+    /*
+     * Hairstyle Enum
+     */
+
+    public enum Hairstyle {
+        DEFAULT,
+        SHEEPDOG,
+        PORO,
+        HORSESHOE;
+
+        public static Hairstyle getHairstyleById(int id) {
+            return Hairstyle.values()[id];
+        }
     }
 
     /*

@@ -30,7 +30,7 @@ public class SnuffleRenderer extends MobRenderer<Snuffle, SnuffleModel<Snuffle>>
 
     @Override
     public ResourceLocation getTextureLocation(Snuffle snuffle) {
-        int i = snuffle.getHairstyle();
+        int i = snuffle.getHairstyleId();
         return snuffle.isFrosty() ? FROSTY_LOCATIONS[i] : SNUFFLE_LOCATIONS[i];
     }
 }
