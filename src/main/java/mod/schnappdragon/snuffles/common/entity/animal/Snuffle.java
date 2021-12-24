@@ -34,6 +34,7 @@ import java.util.Random;
 
 public class Snuffle extends Animal {
     private static final EntityDataAccessor<Integer> DATA_HAIRSTYLE_ID = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> DATA_FLUFF = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> DATA_FROSTY = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> IS_CRAVING = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.BOOLEAN);
 
@@ -73,6 +74,7 @@ public class Snuffle extends Animal {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(DATA_HAIRSTYLE_ID, 0);
+        this.entityData.define(DATA_FLUFF, false);
         this.entityData.define(DATA_FROSTY, false);
         this.entityData.define(IS_CRAVING, false);
     }
@@ -80,6 +82,7 @@ public class Snuffle extends Animal {
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("Hairstyle", this.getHairstyle());
+        compound.putBoolean("Fluff", this.hasFluff());
         compound.putBoolean("Frosty", this.isFrosty());
         compound.putInt("FrostTicks", this.frostTicks);
     }
@@ -87,6 +90,7 @@ public class Snuffle extends Animal {
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.setHairstyle(compound.getInt("Hairstyle"));
+        this.setFluff(compound.getBoolean("Fluff"));
         this.setFrosty(compound.getBoolean("Frosty"));
         this.frostTicks = compound.getInt("FrostTicks");
     }
@@ -97,6 +101,14 @@ public class Snuffle extends Animal {
 
     public int getHairstyle() {
         return Mth.clamp(this.entityData.get(DATA_HAIRSTYLE_ID), 0, 3);
+    }
+
+    public void setFluff(boolean hasFluff) {
+        this.entityData.set(DATA_FLUFF, hasFluff);
+    }
+
+    public boolean hasFluff() {
+        return this.entityData.get(DATA_FLUFF);
     }
 
     public void setFrosty(boolean isFrosty) {
