@@ -43,6 +43,7 @@ public class Snuffle extends Animal implements IForgeShearable {
     private static final EntityDataAccessor<Boolean> DATA_FROSTY = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> IS_CRAVING = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.BOOLEAN);
 
+    private int fluffGrowTime = 18000 + this.getRandom().nextInt(6000);
     private int frostTicks;
 
     public Snuffle(EntityType<Snuffle> snuffle, Level world) {
@@ -89,6 +90,7 @@ public class Snuffle extends Animal implements IForgeShearable {
         compound.putInt("Hairstyle", this.getHairstyleId());
         compound.putBoolean("HasFluff", this.hasFluff());
         compound.putBoolean("Frosty", this.isFrosty());
+        compound.putInt("FluffGrowTime", this.fluffGrowTime);
         compound.putInt("FrostTicks", this.frostTicks);
     }
 
@@ -97,6 +99,7 @@ public class Snuffle extends Animal implements IForgeShearable {
         this.setHairstyleId(compound.getInt("Hairstyle"));
         this.setFluff(compound.getBoolean("HasFluff"));
         this.setFrosty(compound.getBoolean("Frosty"));
+        this.fluffGrowTime = compound.getInt("FluffGrowTime");
         this.frostTicks = compound.getInt("FrostTicks");
     }
 
@@ -137,21 +140,19 @@ public class Snuffle extends Animal implements IForgeShearable {
     }
 
     /*
-     * Frost Methods
+     * Frost & Fluff Methods
      */
 
     @Override
-    protected void customServerAiStep() {
-        super.customServerAiStep();
+    public void tick() {
+        super.tick();
 
-        if (!this.isFrosty()) {
-            if (this.frostTicks > 0)
-                --this.frostTicks;
+        if (!this.hasFluff() && !this.isBaby()) {
+            if (this.fluffGrowTime > 0)
+                --this.fluffGrowTime;
             else {
-                if (this.isSnowingAt(this.level, this.blockPosition()))
-                    this.setFrosty(true);
-
-                this.frostTicks = this.getRandom().nextInt(140);
+                this.setFluff(true);
+                this.fluffGrowTime = 18000 + this.getRandom().nextInt(6000);
             }
         }
     }
@@ -171,6 +172,22 @@ public class Snuffle extends Animal implements IForgeShearable {
         } else {
             if (this.isFrosty() && this.getDeltaMovement().lengthSqr() > 0.0081D && this.getRandom().nextBoolean())
                 this.level.addParticle(SnufflesParticleTypes.SNOWFLAKE.get(), this.getRandomX(0.4D), this.getRandomY(), this.getRandomZ(0.4D), 0.0D, 0.0D, 0.0D);
+        }
+    }
+
+    @Override
+    protected void customServerAiStep() {
+        super.customServerAiStep();
+
+        if (!this.isFrosty()) {
+            if (this.frostTicks > 0)
+                --this.frostTicks;
+            else {
+                if (this.isSnowingAt(this.level, this.blockPosition()))
+                    this.setFrosty(true);
+
+                this.frostTicks = this.getRandom().nextInt(140);
+            }
         }
     }
 
