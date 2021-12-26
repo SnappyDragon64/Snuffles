@@ -31,9 +31,9 @@ public class SnufflesShearsDispenseItemBehavior {
 
                 for (Snuffle snuffle : worldIn.getEntitiesOfClass(Snuffle.class, new AABB(pos), EntitySelector.NO_SPECTATORS)) {
                     if (snuffle.isShearable(ItemStack.EMPTY, worldIn, pos)) {
-                        worldIn.addFreshEntity(new ItemEntity(worldIn, snuffle.getX(), snuffle.getY(1.0D), snuffle.getZ(), new ItemStack(snuffle.isFrosty() ? SnufflesBlocks.FROSTY_FLUFF.get() : SnufflesBlocks.SNUFFLE_FLUFF.get())));
-                        worldIn.gameEvent(GameEvent.SHEAR, pos);
-                        snuffle.setFluff(false);
+                        snuffle.onSheared(null, stack, worldIn, pos, 0).forEach(drop -> {
+                            worldIn.addFreshEntity(new ItemEntity(worldIn, snuffle.getX(), snuffle.getY(1.0D), snuffle.getZ(), drop));
+                        });
 
                         if (stack.hurt(1, worldIn.getRandom(), null))
                             stack.setCount(0);
