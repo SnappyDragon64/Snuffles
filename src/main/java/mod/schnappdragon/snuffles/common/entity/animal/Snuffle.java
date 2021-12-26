@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Snuffle extends Animal implements IForgeShearable {
+    private static final EntityDataAccessor<Integer> SHAKE_COUNTER = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> DATA_HAIRSTYLE_ID = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> DATA_FLUFF = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> DATA_FROSTY = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.BOOLEAN);
@@ -79,6 +80,7 @@ public class Snuffle extends Animal implements IForgeShearable {
 
     protected void defineSynchedData() {
         super.defineSynchedData();
+        this.entityData.define(SHAKE_COUNTER, 0);
         this.entityData.define(DATA_HAIRSTYLE_ID, 0);
         this.entityData.define(DATA_FLUFF, false);
         this.entityData.define(DATA_FROSTY, false);
@@ -101,6 +103,18 @@ public class Snuffle extends Animal implements IForgeShearable {
         this.setFrosty(compound.getBoolean("Frosty"));
         this.fluffGrowTime = compound.getInt("FluffGrowTime");
         this.frostTicks = compound.getInt("FrostTicks");
+    }
+
+    public void setShakeCounter(int counter) {
+        this.entityData.set(SHAKE_COUNTER, counter);
+    }
+
+    public int getShakeCounter() {
+        return this.entityData.get(SHAKE_COUNTER);
+    }
+
+    public boolean isShaking() {
+        return this.getShakeCounter() > 0;
     }
 
     public void setHairstyleId(int id) {
@@ -147,6 +161,25 @@ public class Snuffle extends Animal implements IForgeShearable {
     public void tick() {
         super.tick();
 
+        if (this.isFrosty()) {
+            if (this.isOnFire()) {
+                this.clearFire();
+                this.setFrosty(false);
+            }
+
+            if (this.getDeltaMovement().lengthSqr() > 0.0081D && this.getRandom().nextBoolean())
+                this.level.addParticle(SnufflesParticleTypes.SNOWFLAKE.get(), this.getRandomX(0.4D), this.getRandomY(), this.getRandomZ(0.4D), 0.0D, 0.0D, 0.0D);
+        } else {
+            if (this.frostTicks > 0)
+                --this.frostTicks;
+            else {
+                if (!this.isShaking() && (this.isSnowingAt(this.level, this.blockPosition()) || this.isInPowderSnow))
+                    this.attemptFrosting();
+
+                this.frostTicks = this.getRandom().nextInt(140);
+            }
+        }
+
         if (!this.hasFluff() && !this.isBaby()) {
             if (this.fluffGrowTime > 0)
                 --this.fluffGrowTime;
@@ -155,39 +188,21 @@ public class Snuffle extends Animal implements IForgeShearable {
                 this.fluffGrowTime = 18000 + this.getRandom().nextInt(6000);
             }
         }
+
+        this.handleFrosting();
     }
 
-    @Override
-    public void aiStep() {
-        super.aiStep();
-
-        if (!this.level.isClientSide) {
-            if (this.isInPowderSnow)
-                this.setFrosty(true);
-
-            if (this.isOnFire() && this.isFrosty()) {
-                this.clearFire();
-                this.setFrosty(false);
-            }
-        } else {
-            if (this.isFrosty() && this.getDeltaMovement().lengthSqr() > 0.0081D && this.getRandom().nextBoolean())
-                this.level.addParticle(SnufflesParticleTypes.SNOWFLAKE.get(), this.getRandomX(0.4D), this.getRandomY(), this.getRandomZ(0.4D), 0.0D, 0.0D, 0.0D);
-        }
+    private void attemptFrosting() {
+        this.setShakeCounter(40);
     }
 
-    @Override
-    protected void customServerAiStep() {
-        super.customServerAiStep();
+    private void handleFrosting() {
+        if (this.isShaking()) {
+            this.setShakeCounter(Math.max(0, this.getShakeCounter() - 1));
+            this.setFrosty(this.getShakeCounter() <= 5);
 
-        if (!this.isFrosty()) {
-            if (this.frostTicks > 0)
-                --this.frostTicks;
-            else {
-                if (this.isSnowingAt(this.level, this.blockPosition()))
-                    this.setFrosty(true);
-
-                this.frostTicks = this.getRandom().nextInt(140);
-            }
+            if (this.getShakeCounter() % 2 == 0)
+                this.level.broadcastEntityEvent(this, (byte) 10);
         }
     }
 
@@ -243,6 +258,19 @@ public class Snuffle extends Animal implements IForgeShearable {
     }
 
     /*
+     * Client Methods
+     */
+
+    @Override
+    public void handleEntityEvent(byte id) {
+        if (id == 10) {
+            for (int i = 0; i < 3; i ++)
+                this.level.addParticle(SnufflesParticleTypes.SNOWFLAKE.get(), this.getRandomX(0.8D), this.getEyeY(), this.getRandomZ(0.8D), 0.0D, 0.1D, 0.0D);
+        } else
+            super.handleEntityEvent(id);
+    }
+
+    /*
      * Spawning Methods
      */
 
@@ -254,7 +282,7 @@ public class Snuffle extends Animal implements IForgeShearable {
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData groupData, @Nullable CompoundTag compound) {
         SpawnGroupData data = super.finalizeSpawn(world, difficulty, spawnType, groupData, compound);
         this.setFrosty(world.getBiome(this.blockPosition()).coldEnoughToSnow(this.blockPosition()));
-        if (!this.isBaby()) this.setFluff(true);
+        this.setFluff(!this.isBaby());
         return data;
     }
 

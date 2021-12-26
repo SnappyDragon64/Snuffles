@@ -67,7 +67,9 @@ public class SnuffleModel<T extends Snuffle> extends EntityModel<T> {
     }
 
     public void setupAnim(Snuffle snuffle, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        this.body.zRot = Mth.sin(limbSwing * 0.5F + (float) Math.PI) * 0.15F * limbSwingAmount;
+        this.body.zRot = snuffle.isShaking() ?
+                Mth.sin(ageInTicks * 1.2F) * 0.12F :
+                Mth.sin(limbSwing * 0.5F + (float) Math.PI) * 0.12F * limbSwingAmount;
         this.extra.zRot = this.body.zRot;
 
         this.rightHindLeg.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
@@ -75,6 +77,6 @@ public class SnuffleModel<T extends Snuffle> extends EntityModel<T> {
         this.rightFrontLeg.xRot = this.leftHindLeg.xRot;
         this.leftFrontLeg.xRot = this.rightHindLeg.xRot;
 
-        this.tongue.xRot = 0.3927F + Mth.sin(ageInTicks * (snuffle.isCraving() ? 0.8F : 0.1F)) * 0.2F;
+        this.tongue.xRot = 0.3927F + Mth.sin(ageInTicks * (snuffle.isCraving() || snuffle.isShaking() ? 0.8F : 0.1F)) * 0.2F;
     }
 }
