@@ -8,7 +8,9 @@ import net.minecraft.world.level.block.FireBlock;
 public class SnufflesFlammables {
     public static void registerFlammables() {
         registerFlammable(SnufflesBlocks.SNUFFLE_FLUFF.get(), 30, 60);
+        registerFlammable(SnufflesBlocks.FROSTY_FLUFF.get(), 30, 100);
         registerFlammable(SnufflesBlocks.SNUFFLE_FLUFF_CARPET.get(), 60, 20);
+        registerFlammable(SnufflesBlocks.FROSTY_FLUFF_CARPET.get(), 60, 100);
     }
 
     private static void registerFlammable(Block block, int flameOdds, int burnOdds) {
