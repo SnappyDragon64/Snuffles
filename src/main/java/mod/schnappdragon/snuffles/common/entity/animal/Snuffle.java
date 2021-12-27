@@ -276,10 +276,21 @@ public class Snuffle extends Animal implements IForgeShearable {
 
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData groupData, @Nullable CompoundTag compound) {
-        SpawnGroupData data = super.finalizeSpawn(world, difficulty, spawnType, groupData, compound);
-        this.setFrosty(world.getBiome(this.blockPosition()).coldEnoughToSnow(this.blockPosition()));
-        this.setFluff(!this.isBaby());
-        return data;
+        boolean frosty = world.getBiome(this.blockPosition()).coldEnoughToSnow(this.blockPosition());
+
+        if (groupData instanceof Snuffle.SnuffleGroupData)
+            frosty = ((Snuffle.SnuffleGroupData) groupData).frosty;
+        else
+            groupData = new Snuffle.SnuffleGroupData(frosty);
+
+        Snuffle.SnuffleGroupData snuffleGroupData = (Snuffle.SnuffleGroupData) groupData;
+        if (snuffleGroupData.getGroupSize() > 0 && this.random.nextFloat() <= snuffleGroupData.getBabySpawnChance())
+            this.setAge(-24000);
+        else
+            this.setFluff(true);
+
+        this.setFrosty(frosty);
+        return super.finalizeSpawn(world, difficulty, spawnType, groupData, compound);
     }
 
     /*
@@ -295,6 +306,19 @@ public class Snuffle extends Animal implements IForgeShearable {
     @Override
     public boolean isFood(ItemStack stack) {
         return stack.is(SnufflesItemTags.SNUFFLE_FOOD);
+    }
+
+    /*
+     * Data
+     */
+
+    public static class SnuffleGroupData extends AgeableMob.AgeableMobGroupData {
+        public final boolean frosty;
+
+        public SnuffleGroupData(boolean frosty) {
+            super(false);
+            this.frosty = frosty;
+        }
     }
 
     /*
