@@ -15,6 +15,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -201,8 +202,10 @@ public class Snuffle extends Animal implements IForgeShearable {
             this.setShakeCounter(Math.max(0, this.getShakeCounter() - 1));
             this.setFrosty(this.getShakeCounter() <= 5);
 
-            if (this.getShakeCounter() % 2 == 0)
-                this.level.broadcastEntityEvent(this, (byte) 10);
+            if (this.getShakeCounter() % 2 == 0) {
+                for (int i = 0; i < 3; i ++)
+                    this.level.addParticle(SnufflesParticleTypes.SNOWFLAKE.get(), this.getRandomX(0.8D), this.getEyeY(), this.getRandomZ(0.8D), 0.0D, 0.1D, 0.0D);
+            }
         }
     }
 
@@ -257,17 +260,10 @@ public class Snuffle extends Animal implements IForgeShearable {
         return List.of(new ItemStack(this.isFrosty() ? SnufflesBlocks.FROSTY_FLUFF.get() : SnufflesBlocks.SNUFFLE_FLUFF.get()));
     }
 
-    /*
-     * Client Methods
-     */
-
     @Override
-    public void handleEntityEvent(byte id) {
-        if (id == 10) {
-            for (int i = 0; i < 3; i ++)
-                this.level.addParticle(SnufflesParticleTypes.SNOWFLAKE.get(), this.getRandomX(0.8D), this.getEyeY(), this.getRandomZ(0.8D), 0.0D, 0.1D, 0.0D);
-        } else
-            super.handleEntityEvent(id);
+    public void die(DamageSource source) {
+        this.setShakeCounter(0);
+        super.die(source);
     }
 
     /*
