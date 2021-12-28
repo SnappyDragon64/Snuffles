@@ -187,20 +187,9 @@ public class Snuffle extends Animal implements IForgeShearable {
         if (!this.hasFluff() && !this.isBaby()) {
             if (this.fluffGrowTime > 0)
                 --this.fluffGrowTime;
-            else {
+            else
                 this.setFluff(true);
-                this.fluffGrowTime = 18000 + this.getRandom().nextInt(6000);
-            }
         }
-    }
-
-    @Override
-    public void handleEntityEvent(byte id) {
-        if (id == 10) {
-            for (int i = 0; i < 4; i ++)
-                this.level.addParticle(SnufflesParticleTypes.SNOWFLAKE.get(), this.getRandomX(0.8D), this.getEyeY(), this.getRandomZ(0.8D), 0.0D, 0.1D, 0.0D);
-        } else
-            super.handleEntityEvent(id);
     }
 
     @Override
@@ -243,6 +232,15 @@ public class Snuffle extends Animal implements IForgeShearable {
             return world.getBiome(pos).coldEnoughToSnow(pos);
     }
 
+    @Override
+    public void handleEntityEvent(byte id) {
+        if (id == 10) {
+            for (int i = 0; i < 4; i ++)
+                this.level.addParticle(SnufflesParticleTypes.SNOWFLAKE.get(), this.getRandomX(0.8D), this.getEyeY(), this.getRandomZ(0.8D), 0.0D, 0.1D, 0.0D);
+        } else
+            super.handleEntityEvent(id);
+    }
+
     /*
      * Shearing Methods
      */
@@ -257,6 +255,7 @@ public class Snuffle extends Animal implements IForgeShearable {
     public List<ItemStack> onSheared(@Nullable Player player, @NotNull ItemStack item, Level world, BlockPos pos, int fortune) {
         this.setFluff(false);
         this.level.gameEvent(player, GameEvent.SHEAR, pos);
+        this.fluffGrowTime = 18000 + this.getRandom().nextInt(6000);
         return List.of(new ItemStack(this.isFrosty() ? SnufflesBlocks.FROSTY_FLUFF.get() : SnufflesBlocks.SNUFFLE_FLUFF.get()));
     }
 
