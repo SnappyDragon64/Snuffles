@@ -28,7 +28,7 @@ public class SnuffleFluffLayer<T extends Snuffle, M extends SnuffleModel<T>> ext
     }
 
     public void render(PoseStack matrixStack, MultiBufferSource buffer, int packedLight, T snuffle, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        if (snuffle.hasFluff()) {
+        if (snuffle.hasFluff() && !snuffle.isInvisible()) {
             VertexConsumer vertexconsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(this.getTextureLocation(snuffle)));
             this.getParentModel().renderToBuffer(matrixStack, vertexconsumer, packedLight, LivingEntityRenderer.getOverlayCoords(snuffle, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
         }
