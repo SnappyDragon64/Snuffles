@@ -192,6 +192,21 @@ public class Snuffle extends Animal implements IForgeShearable {
         }
     }
 
+    private boolean isSnowingAt(Level world, BlockPos pos) {
+        if (!world.isRaining())
+            return false;
+        else if (!world.canSeeSky(pos))
+            return false;
+        else if (world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pos).getY() > pos.getY())
+            return false;
+        else
+            return world.getBiome(pos).coldEnoughToSnow(pos);
+    }
+
+    /*
+     * Interaction Method
+     */
+
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
@@ -215,22 +230,9 @@ public class Snuffle extends Animal implements IForgeShearable {
         return super.mobInteract(player, hand);
     }
 
-    @Override
-    public void die(DamageSource source) {
-        this.setFrostCounter(0);
-        super.die(source);
-    }
-
-    private boolean isSnowingAt(Level world, BlockPos pos) {
-        if (!world.isRaining())
-            return false;
-        else if (!world.canSeeSky(pos))
-            return false;
-        else if (world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pos).getY() > pos.getY())
-            return false;
-        else
-            return world.getBiome(pos).coldEnoughToSnow(pos);
-    }
+    /*
+     * Client Method
+     */
 
     @Override
     public void handleEntityEvent(byte id) {
@@ -302,6 +304,16 @@ public class Snuffle extends Animal implements IForgeShearable {
     }
 
     /*
+     * Death Method
+     */
+
+    @Override
+    public void die(DamageSource source) {
+        this.setFrostCounter(0);
+        super.die(source);
+    }
+
+    /*
      * Data
      */
 
@@ -360,10 +372,7 @@ public class Snuffle extends Animal implements IForgeShearable {
         }
 
         public boolean canUse() {
-            if (Snuffle.this.xxa == 0.0F && Snuffle.this.yya == 0.0F && Snuffle.this.zza == 0.0F)
-                return this.canFrost() || Snuffle.this.isFrosting();
-            else
-                return false;
+            return Snuffle.this.xxa == 0.0F && Snuffle.this.yya == 0.0F && Snuffle.this.zza == 0.0F && this.canFrost();
         }
 
         public boolean canContinueToUse() {
@@ -383,17 +392,16 @@ public class Snuffle extends Animal implements IForgeShearable {
 
         public void tick() {
             Snuffle.this.setFrostCounter(Math.max(0, Snuffle.this.getFrostCounter() - 1));
-            Snuffle.this.setFrosty(Snuffle.this.getFrostCounter() <= 5);
-            Snuffle.LOGGER.info(Snuffle.this.getFrostCounter());
 
-            if (Snuffle.this.getFrostCounter() % 2 == 0)
+            if (Snuffle.this.getFrostCounter() % this.adjustedTickDelay(4) == 0) {
+                Snuffle.this.setFrosty(Snuffle.this.getFrostCounter() == this.adjustedTickDelay(4));
                 Snuffle.this.level.broadcastEntityEvent(Snuffle.this, (byte) 10);
+            }
         }
 
         public void start() {
-            Snuffle.this.setFrostCounter(40);
+            Snuffle.this.setFrostCounter(this.adjustedTickDelay(40));
             Snuffle.this.getNavigation().stop();
-            Snuffle.this.getMoveControl().setWantedPosition(Snuffle.this.getX(), Snuffle.this.getY(), Snuffle.this.getZ(), 0.0D);
         }
 
         public void stop() {
