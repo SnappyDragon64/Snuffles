@@ -331,8 +331,10 @@ public class Snuffle extends Animal implements IForgeShearable {
         PORO,
         HORSESHOE;
 
+        private static final Hairstyle[] HAIRSTYLES = Hairstyle.values();
+
         public static Hairstyle getHairstyleById(int id) {
-            return Hairstyle.values()[id];
+            return HAIRSTYLES[id];
         }
     }
 
