@@ -43,7 +43,7 @@ public class Snuffle extends Animal implements IForgeShearable {
     private static final EntityDataAccessor<Integer> DATA_HAIRSTYLE_ID = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> DATA_FLUFF = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> DATA_FROSTY = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> IS_CRAVING = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> IS_LICKING = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.BOOLEAN);
 
     private int fluffGrowTime = 18000 + this.getRandom().nextInt(6000);
     private int frostTicks;
@@ -85,7 +85,7 @@ public class Snuffle extends Animal implements IForgeShearable {
         this.entityData.define(DATA_HAIRSTYLE_ID, 0);
         this.entityData.define(DATA_FLUFF, false);
         this.entityData.define(DATA_FROSTY, false);
-        this.entityData.define(IS_CRAVING, false);
+        this.entityData.define(IS_LICKING, false);
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
@@ -146,12 +146,12 @@ public class Snuffle extends Animal implements IForgeShearable {
         return this.entityData.get(DATA_FROSTY);
     }
 
-    public void setCraving(boolean isCraving) {
-        this.entityData.set(IS_CRAVING, isCraving);
+    public void setLicking(boolean isLicking) {
+        this.entityData.set(IS_LICKING, isLicking);
     }
 
-    public boolean isCraving() {
-        return this.entityData.get(IS_CRAVING);
+    public boolean isLicking() {
+        return this.entityData.get(IS_LICKING);
     }
 
     /*
@@ -349,12 +349,12 @@ public class Snuffle extends Animal implements IForgeShearable {
 
         public void start() {
             super.start();
-            Snuffle.this.setCraving(true);
+            Snuffle.this.setLicking(true);
         }
 
         public void stop() {
             super.stop();
-            Snuffle.this.setCraving(false);
+            Snuffle.this.setLicking(false);
         }
     }
 }
