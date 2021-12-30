@@ -78,7 +78,7 @@ public class Snuffle extends Animal implements IForgeShearable {
         this.goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(4, new Snuffle.SnuffleTemptGoal(1.1D, Ingredient.of(SnufflesItemTags.SNUFFLE_FOOD), false));
         this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.1D));
-        this.goalSelector.addGoal(6, new FrostGoal());
+        this.goalSelector.addGoal(6, new Snuffle.FrostGoal());
         this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(9, new RandomLookAroundGoal(this));
@@ -180,7 +180,7 @@ public class Snuffle extends Animal implements IForgeShearable {
                 this.setFrosty(false);
             }
 
-            if (this.getDeltaMovement().lengthSqr() > 0.0081D && this.getRandom().nextBoolean())
+            if ((this.xOld != this.getX() || this.yOld != this.getY() || this.zOld != this.getZ()) && this.getRandom().nextBoolean())
                 this.level.addParticle(SnufflesParticleTypes.SNOWFLAKE.get(), this.getRandomX(0.4D), this.getRandomY(), this.getRandomZ(0.4D), 0.0D, 0.0D, 0.0D);
         }
 
