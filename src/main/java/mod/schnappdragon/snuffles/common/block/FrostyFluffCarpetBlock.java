@@ -38,7 +38,7 @@ public class FrostyFluffCarpetBlock extends CarpetBlock {
         if (!world.isClientSide) {
             AABB aabb = TOUCH_AABB.move(pos);
             if (world.getEntities(null, aabb).contains(entity)) {
-                if (!entity.isSteppingCarefully() && (entity.xOld != entity.getX() || entity.yOld != entity.getY() || entity.zOld != entity.getZ()) && world.getRandom().nextBoolean())
+                if (!entity.isSteppingCarefully() && (entity.xOld != entity.getX() || entity.yOld != entity.getY() || entity.zOld != entity.getZ()) && world.getRandom().nextFloat() <= 0.3F)
                     ((ServerLevel) world).sendParticles(SnufflesParticleTypes.SNOWFLAKE.get(), entity.getX(), entity.getY(), entity.getZ(), 0, Mth.randomBetween(world.getRandom(), -1.0F, 1.0F) * 0.083F, 0.05F, Mth.randomBetween(world.getRandom(), -1.0F, 1.0F) * 0.083F, 1.0F);
             }
         }
