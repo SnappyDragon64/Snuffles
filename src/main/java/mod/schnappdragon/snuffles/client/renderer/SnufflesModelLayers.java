@@ -1,6 +1,6 @@
 package mod.schnappdragon.snuffles.client.renderer;
 
-import mod.schnappdragon.snuffles.client.model.SnuffleModel;
+import mod.schnappdragon.snuffles.client.model.*;
 import mod.schnappdragon.snuffles.core.Snuffles;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.resources.ResourceLocation;
@@ -12,9 +12,11 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = Snuffles.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class SnufflesModelLayers {
     public static ModelLayerLocation SNUFFLE = new ModelLayerLocation(new ResourceLocation(Snuffles.MODID, "snuffle"), "main");
+    public static ModelLayerLocation SNUFFLE_FLUFF = new ModelLayerLocation(new ResourceLocation(Snuffles.MODID, "snuffle"), "fluff");
 
     @SubscribeEvent
     public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(SNUFFLE, SnuffleModel::createBodyLayer);
+        event.registerLayerDefinition(SNUFFLE_FLUFF, SnuffleFluffModel::createFluffLayer);
     }
 }
