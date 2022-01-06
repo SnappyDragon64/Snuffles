@@ -37,7 +37,7 @@ public class SnuffleModel<T extends Snuffle> extends EntityModel<T> {
         PartDefinition partdefinition = meshdefinition.getRoot();
         PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 24.0F, 0.0F, -0.0436F, 0.0F, 0.0F));
         body.addOrReplaceChild("torso", CubeListBuilder.create().texOffs(0, 25).addBox(-9.0F, -6.0F, -10.0F, 18.0F, 11.0F, 20.0F), PartPose.offset(0.0F, -10.0F, 0.0F));
-        body.addOrReplaceChild("tongue", CubeListBuilder.create().texOffs(48, 0).addBox(-6.0F, 0.0F, -7.0F, 12.0F, 0.0F, 8.0F), PartPose.offsetAndRotation(0.0F, -6.0F, -10.0F, 0.3927F, 0.0F, 0.0F));
+        body.addOrReplaceChild("tongue", CubeListBuilder.create().texOffs(80, 16).addBox(-6.0F, 0.0F, -7.0F, 12.0F, 1.0F, 8.0F), PartPose.offsetAndRotation(0.0F, -6.0F, -10.0F, 0.3927F, 0.0F, 0.0F));
         PartDefinition extra = partdefinition.addOrReplaceChild("extra", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 24.0F, 0.0F, -0.0436F, 0.0F, 0.0F));
         extra.addOrReplaceChild("fluff", CubeListBuilder.create().texOffs(0, 0).addBox(-9.0F, 5.0F, -10.0F, 18.0F, 5.0F, 20.0F), PartPose.offset(0.0F, -10.0F, 0.0F));
         extra.addOrReplaceChild("right_horn", CubeListBuilder.create().texOffs(102, 0).addBox(-3.0F, -7.0F, -6.0F, 3.0F, 8.0F, 8.0F), PartPose.offsetAndRotation(-9.0F, -14.0F, -6.0F, 0.0873F, 0.0F, 0.0F));
