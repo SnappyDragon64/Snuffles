@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "minecraft:cookie"
+    "#forge:crops/potato",
+    "minecraft:baked_potato"
   ]
 }
