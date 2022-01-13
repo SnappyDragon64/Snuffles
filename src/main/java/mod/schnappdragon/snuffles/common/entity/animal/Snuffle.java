@@ -3,6 +3,7 @@ package mod.schnappdragon.snuffles.common.entity.animal;
 import mod.schnappdragon.snuffles.core.registry.SnufflesBlocks;
 import mod.schnappdragon.snuffles.core.registry.SnufflesEntityTypes;
 import mod.schnappdragon.snuffles.core.registry.SnufflesParticleTypes;
+import mod.schnappdragon.snuffles.core.registry.SnufflesSoundEvents;
 import mod.schnappdragon.snuffles.core.tags.SnufflesBlockTags;
 import mod.schnappdragon.snuffles.core.tags.SnufflesItemTags;
 import net.minecraft.core.BlockPos;
@@ -11,27 +12,16 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.BreedGoal;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.FollowParentGoal;
-import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.PanicGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.TemptGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -41,6 +31,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
@@ -178,6 +169,7 @@ public class Snuffle extends Animal implements IForgeShearable {
             if (this.isOnFire()) {
                 this.clearFire();
                 this.setFrosty(false);
+                this.playEntityOnFireExtinguishedSound();
             }
 
             if ((this.xOld != this.getX() || this.yOld != this.getY() || this.zOld != this.getZ()) && this.getRandom().nextBoolean())
@@ -204,7 +196,7 @@ public class Snuffle extends Animal implements IForgeShearable {
     }
 
     /*
-     * Interaction Method
+     * Interaction Methods
      */
 
     @Override
@@ -215,19 +207,48 @@ public class Snuffle extends Animal implements IForgeShearable {
             if (!this.level.isClientSide) {
                 this.usePlayerItem(player, hand, stack);
                 this.setHairstyleId((this.getHairstyleId() + 1) % 4);
+                this.playSound(SnufflesSoundEvents.SNUFFLE_STYLE.get(), 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
             }
 
             return InteractionResult.sidedSuccess(this.level.isClientSide);
         } else if (stack.is(Items.MAGMA_CREAM) && this.isFrosty()) {
             if (!this.level.isClientSide) {
-                this.usePlayerItem(player, hand, stack);
                 this.setFrosty(false);
+                this.usePlayerItem(player, hand, stack);
+                this.playSound(SnufflesSoundEvents.SNUFFLE_THAW.get(), 0.7F, 1.6F + (this.random.nextFloat() - this.random.nextFloat()) * 0.4F);
             }
 
             return InteractionResult.sidedSuccess(this.level.isClientSide);
         }
 
         return super.mobInteract(player, hand);
+    }
+
+    protected void usePlayerItem(Player player, InteractionHand hand, ItemStack stack) {
+        if (this.isFood(stack))
+            this.playSound(SnufflesSoundEvents.SNUFFLE_EAT.get(), 1.0F, 1.0F);
+
+        super.usePlayerItem(player, hand, stack);
+    }
+
+    /*
+     * Sound Methods
+     */
+
+    protected SoundEvent getAmbientSound() {
+        return SnufflesSoundEvents.SNUFFLE_AMBIENT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return SnufflesSoundEvents.SNUFFLE_DEATH.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return SnufflesSoundEvents.SNUFFLE_HURT.get();
+    }
+
+    protected void playStepSound(BlockPos pos, BlockState state) {
+        this.playSound(SnufflesSoundEvents.SNUFFLE_STEP.get(), 0.15F, 1.0F);
     }
 
     /*
@@ -258,6 +279,7 @@ public class Snuffle extends Animal implements IForgeShearable {
         this.setFluff(false);
         this.level.gameEvent(player, GameEvent.SHEAR, pos);
         this.fluffGrowTime = 18000 + this.getRandom().nextInt(6000);
+        this.playSound(SnufflesSoundEvents.SNUFFLE_SHEAR.get(), 1.0F, 1.0F);
         return List.of(new ItemStack(this.isFrosty() ? SnufflesBlocks.FROSTY_FLUFF.get() : SnufflesBlocks.SNUFFLE_FLUFF.get()));
     }
 
@@ -394,6 +416,7 @@ public class Snuffle extends Animal implements IForgeShearable {
             Snuffle.this.setFrostCounter(Math.max(0, Snuffle.this.getFrostCounter() - 1));
 
             if (Snuffle.this.getFrostCounter() % this.adjustedTickDelay(4) == 0) {
+                Snuffle.this.playSound(SnufflesSoundEvents.SNUFFLE_SHAKE.get(), 1.0F, (Snuffle.this.random.nextFloat() - Snuffle.this.random.nextFloat()) * 0.2F + 1.0F);
                 Snuffle.this.setFrosty(Snuffle.this.getFrostCounter() == this.adjustedTickDelay(4));
                 Snuffle.this.level.broadcastEntityEvent(Snuffle.this, (byte) 10);
             }

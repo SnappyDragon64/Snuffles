@@ -1,0 +1,74 @@
+{
+  "entity.snuffle.ambient": {
+    "subtitle": "snuffles.subtitles.entity.snuffle.ambient",
+    "sounds": [
+      "snuffles:mob/snuffle/snuffle1",
+      "snuffles:mob/snuffle/snuffle2",
+      "snuffles:mob/snuffle/snuffle3",
+      "snuffles:mob/snuffle/snuffle4"
+    ]
+  },
+  "entity.snuffle.death": {
+    "subtitle": "snuffles.subtitles.entity.snuffle.death",
+    "sounds": [
+      "snuffles:mob/snuffle/death1",
+      "snuffles:mob/snuffle/death2"
+    ]
+  },
+  "entity.snuffle.eat": {
+    "subtitle": "snuffles.subtitles.entity.snuffle.eat",
+    "sounds": [
+      {
+        "name": "snuffles:mob/snuffle/slurp1",
+        "volume": 0.6
+      },
+      {
+        "name": "snuffles:mob/snuffle/slurp2",
+        "volume": 0.6
+      }
+    ]
+  },
+  "entity.snuffle.hurt": {
+    "subtitle": "snuffles.subtitles.entity.snuffle.hurt",
+    "sounds": [
+      "snuffles:mob/snuffle/hurt1",
+      "snuffles:mob/snuffle/hurt2"
+    ]
+  },
+  "entity.snuffle.shake": {
+    "subtitle": "snuffles.subtitles.entity.snuffle.shake",
+    "sounds": [
+      "snuffles:mob/snuffle/shake1",
+      "snuffles:mob/snuffle/shake2",
+      "snuffles:mob/snuffle/shake3",
+      "snuffles:mob/snuffle/shake4"
+    ]
+  },
+  "entity.snuffle.shear": {
+    "subtitle": "subtitles.item.shears.shear",
+    "sounds": [
+      "mob/sheep/shear"
+    ]
+  },
+  "entity.snuffle.step": {
+    "subtitle": "snuffles.subtitles.entity.snuffle.step",
+    "sounds": [
+      "mob/cow/step1",
+      "mob/cow/step2",
+      "mob/cow/step3",
+      "mob/cow/step4"
+    ]
+  },
+  "entity.snuffle.style": {
+    "subtitle": "snuffles.subtitles.entity.snuffle.style",
+    "sounds": [
+      "snuffles:mob/snuffle/style"
+    ]
+  },
+  "entity.snuffle.thaw": {
+    "subtitle": "snuffles.subtitles.entity.snuffle.thaw",
+    "sounds": [
+      "random/fizz"
+    ]
+  }
+}

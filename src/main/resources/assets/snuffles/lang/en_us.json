@@ -6,5 +6,14 @@
 
   "item.snuffles.snuffle_spawn_egg": "Snuffle Spawn Egg",
 
-  "entity.snuffles.snuffle": "Snuffle"
+  "entity.snuffles.snuffle": "Snuffle",
+
+  "snuffles.subtitles.entity.snuffle.ambient": "Snuffle snuffles",
+  "snuffles.subtitles.entity.snuffle.death": "Snuffle dies",
+  "snuffles.subtitles.entity.snuffle.eat": "Snuffle slurps",
+  "snuffles.subtitles.entity.snuffle.hurt": "Snuffle hurts",
+  "snuffles.subtitles.entity.snuffle.shake": "Snuffle shakes",
+  "snuffles.subtitles.entity.snuffle.step": "Snuffle steps",
+  "snuffles.subtitles.entity.snuffle.style": "Slimeball squishes",
+  "snuffles.subtitles.entity.snuffle.thaw": "Snuffle thaws"
 }
