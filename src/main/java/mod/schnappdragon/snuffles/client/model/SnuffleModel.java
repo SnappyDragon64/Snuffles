@@ -28,7 +28,7 @@ public class SnuffleModel<T extends Snuffle> extends AgeableListModel<T> {
     public SnuffleModel(ModelPart part) {
         this.body = part.getChild("body");
         this.tongue = this.body.getChild("tongue");
-        this.horns = part.getChild("horns");
+        this.horns = this.body.getChild("horns");
         this.rightFrontLeg = part.getChild("right_front_leg");
         this.leftFrontLeg = part.getChild("left_front_leg");
         this.rightHindLeg = part.getChild("right_hind_leg");
@@ -41,7 +41,8 @@ public class SnuffleModel<T extends Snuffle> extends AgeableListModel<T> {
         PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 14.0F, 0.0F, -0.0436F, 0.0F, 0.0F));
         body.addOrReplaceChild("torso", CubeListBuilder.create().texOffs(0, 25).addBox(-9.0F, -6.0F, -10.0F, 18.0F, 11.0F, 20.0F), PartPose.ZERO);
         body.addOrReplaceChild("tongue", CubeListBuilder.create().texOffs(80, 16).addBox(-6.0F, 0.0F, -7.0F, 12.0F, 1.0F, 8.0F), PartPose.offsetAndRotation(0.0F, 4.0F, -10.0F, 0.3927F, 0.0F, 0.0F));
-        PartDefinition horns = partdefinition.addOrReplaceChild("horns", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 14.0F, 0.0F, -0.0436F, 0.0F, 0.0F));
+        body.addOrReplaceChild("fluff", CubeListBuilder.create().texOffs(0, 0).addBox(-9.0F, 5.0F, -10.0F, 18.0F, 5.0F, 20.0F), PartPose.ZERO);
+        PartDefinition horns = body.addOrReplaceChild("horns", CubeListBuilder.create(), PartPose.ZERO);
         horns.addOrReplaceChild("right_horn", CubeListBuilder.create().texOffs(102, 0).addBox(-3.0F, -7.0F, -6.0F, 3.0F, 8.0F, 8.0F), PartPose.offsetAndRotation(-9.0F, -4.0F, -6.0F, 0.0873F, 0.0F, 0.0F));
         horns.addOrReplaceChild("left_horn", CubeListBuilder.create().texOffs(80, 0).addBox(0.0F, -7.0F, -6.0F, 3.0F, 8.0F, 8.0F), PartPose.offsetAndRotation(9.0F, -4.0F, -6.0F, 0.0873F, 0.0F, 0.0F));
         partdefinition.addOrReplaceChild("right_front_leg", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-2.5F, 0.0F, -2.5F, 5.0F, 7.0F, 5.0F), PartPose.offsetAndRotation(-4.5F, 17.0F, -5.5F, 0.0F, 0.1309F, 0.0F));
@@ -56,16 +57,17 @@ public class SnuffleModel<T extends Snuffle> extends AgeableListModel<T> {
     }
 
     protected Iterable<ModelPart> bodyParts() {
-        return ImmutableList.of(this.body, this.horns, this.rightFrontLeg, this.leftFrontLeg, this.rightHindLeg, this.leftHindLeg);
+        return ImmutableList.of(this.body, this.rightFrontLeg, this.leftFrontLeg, this.rightHindLeg, this.leftHindLeg);
+    }
+
+    public void prepareMobModel(Snuffle snuffle, float limbSwing, float limbSwingAmount, float partialTick) {
+        this.horns.visible = !snuffle.isBaby();
     }
 
     public void setupAnim(Snuffle snuffle, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        this.horns.visible = !snuffle.isBaby();
-
         this.body.zRot = 0.12F * (snuffle.isFrosting() ?
                         Mth.sin(ageInTicks * 1.2F) :
                         Mth.sin(limbSwing * 0.5F + (float) Math.PI) * limbSwingAmount);
-        this.horns.zRot = this.body.zRot;
 
         this.rightHindLeg.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
         this.leftHindLeg.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;

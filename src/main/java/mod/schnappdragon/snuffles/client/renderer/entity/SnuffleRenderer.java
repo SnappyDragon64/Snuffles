@@ -25,7 +25,7 @@ public class SnuffleRenderer extends MobRenderer<Snuffle, SnuffleModel<Snuffle>>
 
     public SnuffleRenderer(EntityRendererProvider.Context context) {
         super(context, new SnuffleModel<>(context.bakeLayer(SnufflesModelLayers.SNUFFLE)), 0.7F);
-        this.addLayer(new SnuffleFluffLayer<>(this, context.getModelSet()));
+        this.addLayer(new SnuffleFluffLayer<>(this));
     }
 
     @Override
