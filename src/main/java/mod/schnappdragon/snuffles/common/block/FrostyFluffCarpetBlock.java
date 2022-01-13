@@ -2,9 +2,11 @@ package mod.schnappdragon.snuffles.common.block;
 
 import mod.schnappdragon.snuffles.core.registry.SnufflesBlocks;
 import mod.schnappdragon.snuffles.core.registry.SnufflesParticleTypes;
+import mod.schnappdragon.snuffles.core.registry.SnufflesSoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -56,6 +58,7 @@ public class FrostyFluffCarpetBlock extends CarpetBlock {
 
                 world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
                 world.setBlockAndUpdate(pos, SnufflesBlocks.SNUFFLE_FLUFF_CARPET.get().defaultBlockState());
+                world.playSound(null, pos, SnufflesSoundEvents.FROSTY_FLUFF_THAW.get(), SoundSource.BLOCKS, 0.7F, 1.6F + (world.random.nextFloat() - world.random.nextFloat()) * 0.4F);
             }
 
             return InteractionResult.sidedSuccess(world.isClientSide);

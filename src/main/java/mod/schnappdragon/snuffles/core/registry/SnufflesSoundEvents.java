@@ -10,6 +10,8 @@ import net.minecraftforge.registries.RegistryObject;
 public class SnufflesSoundEvents {
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Snuffles.MODID);
 
+    public static final RegistryObject<SoundEvent> FROSTY_FLUFF_THAW = register("block.frosty_fluff.thaw");
+
     public static final RegistryObject<SoundEvent> SNUFFLE_AMBIENT = register("entity.snuffle.ambient");
     public static final RegistryObject<SoundEvent> SNUFFLE_DEATH = register("entity.snuffle.death");
     public static final RegistryObject<SoundEvent> SNUFFLE_EAT = register("entity.snuffle.eat");

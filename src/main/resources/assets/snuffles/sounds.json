@@ -1,4 +1,10 @@
 {
+  "block.frosty_fluff.thaw": {
+    "subtitle": "snuffles.subtitles.block.frosty_fluff.thaw",
+    "sounds": [
+      "random/fizz"
+    ]
+  },
   "entity.snuffle.ambient": {
     "subtitle": "snuffles.subtitles.entity.snuffle.ambient",
     "sounds": [
