@@ -33,6 +33,6 @@ public class SnuffleFluffCarpetBlock extends CarpetBlock {
         else if (world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pos).getY() > pos.getY())
             return false;
         else
-            return world.getBiome(pos).coldEnoughToSnow(pos);
+            return world.getBiome(pos).value().coldEnoughToSnow(pos);
     }
 }

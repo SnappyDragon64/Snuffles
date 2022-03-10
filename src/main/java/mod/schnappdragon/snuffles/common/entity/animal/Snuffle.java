@@ -192,7 +192,7 @@ public class Snuffle extends Animal implements IForgeShearable {
         else if (world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pos).getY() > pos.getY())
             return false;
         else
-            return world.getBiome(pos).coldEnoughToSnow(pos);
+            return world.getBiome(pos).value().coldEnoughToSnow(pos);
     }
 
     /*
@@ -293,7 +293,7 @@ public class Snuffle extends Animal implements IForgeShearable {
 
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData groupData, @Nullable CompoundTag compound) {
-        boolean frosty = world.getBiome(this.blockPosition()).coldEnoughToSnow(this.blockPosition());
+        boolean frosty = world.getBiome(this.blockPosition()).value().coldEnoughToSnow(this.blockPosition());
 
         if (groupData instanceof Snuffle.SnuffleGroupData)
             frosty = ((Snuffle.SnuffleGroupData) groupData).frosty;
