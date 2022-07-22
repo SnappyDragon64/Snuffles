@@ -10,7 +10,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-public class SnuffleItems {
+public class SnufflesItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Snuffles.MODID);
 
     public static final RegistryObject<Item> SNUFFLE_FLUFF = ITEMS.register("snuffle_fluff", () -> new FuelBlockItem(SnufflesBlocks.SNUFFLE_FLUFF.get(), 100, new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)));

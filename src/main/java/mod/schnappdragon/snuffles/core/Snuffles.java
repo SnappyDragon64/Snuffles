@@ -26,7 +26,7 @@ public class Snuffles {
         modEventBus.addListener(this::clientSetup);
 
         SnufflesBlocks.BLOCKS.register(modEventBus);
-        SnuffleItems.ITEMS.register(modEventBus);
+        SnufflesItems.ITEMS.register(modEventBus);
         SnufflesEntityTypes.ENTITY_TYPES.register(modEventBus);
         SnufflesParticleTypes.PARTICLE_TYPES.register(modEventBus);
         SnufflesSoundEvents.SOUND_EVENTS.register(modEventBus);

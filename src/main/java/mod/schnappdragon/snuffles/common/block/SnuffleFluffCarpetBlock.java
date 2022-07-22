@@ -3,11 +3,10 @@ package mod.schnappdragon.snuffles.common.block;
 import mod.schnappdragon.snuffles.core.registry.SnufflesBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.CarpetBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
-
-import java.util.Random;
 
 public class SnuffleFluffCarpetBlock extends CarpetBlock {
     public SnuffleFluffCarpetBlock(Properties properties) {
@@ -20,7 +19,7 @@ public class SnuffleFluffCarpetBlock extends CarpetBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         if (this.isSnowingAt(world, pos))
             world.setBlock(pos, SnufflesBlocks.FROSTY_FLUFF_CARPET.get().defaultBlockState(), 2);
     }
