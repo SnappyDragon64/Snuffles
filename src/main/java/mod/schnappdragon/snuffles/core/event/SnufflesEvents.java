@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.Mod;
 public class SnufflesEvents {
     @SubscribeEvent
     public static void onPlayerBreak(PlayerEvent.BreakSpeed event) {
-        if (event.getState().getBlock() instanceof SnuffleFluffBlock && event.getPlayer().getMainHandItem().is(Tags.Items.SHEARS))
+        if (event.getState().getBlock() instanceof SnuffleFluffBlock && event.getEntity().getMainHandItem().is(Tags.Items.SHEARS))
             event.setNewSpeed(event.getNewSpeed() * 5.0F);
     }
 }

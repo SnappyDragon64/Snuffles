@@ -13,7 +13,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 @Mod.EventBusSubscriber(modid = Snuffles.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class SnufflesEntityTypes {
-    public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITIES, Snuffles.MODID);
+    public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, Snuffles.MODID);
 
     public static final RegistryObject<EntityType<Snuffle>> SNUFFLE = ENTITY_TYPES.register("snuffle", () -> EntityType.Builder.of(Snuffle::new, MobCategory.CREATURE).sized(1.2F, 1.0F).clientTrackingRange(8).build("snuffles:snuffle"));
 
