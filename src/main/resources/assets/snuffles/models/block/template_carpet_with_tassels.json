@@ -1,6 +1,7 @@
 {
   "credit": "Made with Blockbench",
   "parent": "minecraft:block/thin_block",
+  "render_type": "minecraft:cutout",
   "textures": {
     "particle": "#fluff"
   },
