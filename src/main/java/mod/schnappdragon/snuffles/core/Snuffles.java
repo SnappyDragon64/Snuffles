@@ -1,6 +1,5 @@
 package mod.schnappdragon.snuffles.core;
 
-import mod.schnappdragon.snuffles.client.renderer.SnufflesRenderLayers;
 import mod.schnappdragon.snuffles.core.dispenser.SnufflesShearsDispenseItemBehavior;
 import mod.schnappdragon.snuffles.core.misc.SnufflesFlammables;
 import mod.schnappdragon.snuffles.core.misc.SnufflesSpawns;
@@ -23,7 +22,6 @@ public class Snuffles {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         modEventBus.addListener(this::commonSetup);
-        modEventBus.addListener(this::clientSetup);
 
         SnufflesBlocks.BLOCKS.register(modEventBus);
         SnufflesItems.ITEMS.register(modEventBus);
@@ -40,9 +38,5 @@ public class Snuffles {
             SnufflesFlammables.registerFlammables();
             SnufflesShearsDispenseItemBehavior.registerDispenserBehaviors();
         });
-    }
-
-    private void clientSetup(FMLClientSetupEvent event) {
-        SnufflesRenderLayers.registerRenderLayers();
     }
 }
