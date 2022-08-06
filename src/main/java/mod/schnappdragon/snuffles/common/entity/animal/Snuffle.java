@@ -13,6 +13,8 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
@@ -277,10 +279,14 @@ public class Snuffle extends Animal implements IForgeShearable {
     @NotNull
     @Override
     public List<ItemStack> onSheared(@Nullable Player player, @NotNull ItemStack item, Level world, BlockPos pos, int fortune) {
+        return onSheared(player, item, world, pos, fortune, SoundSource.PLAYERS);
+    }
+
+    public List<ItemStack> onSheared(@Nullable Player player, @NotNull ItemStack item, Level world, BlockPos pos, int fortune, SoundSource source) {
         this.setFluff(false);
         this.level.gameEvent(player, GameEvent.SHEAR, pos);
         this.fluffGrowTime = 18000 + this.getRandom().nextInt(6000);
-        this.playSound(SnufflesSoundEvents.SNUFFLE_SHEAR.get(), 1.0F, 1.0F);
+        this.level.playSound(null, this, SnufflesSoundEvents.SNUFFLE_SHEAR.get(), source, 1.0F, 1.0F);
         return List.of(new ItemStack(this.isFrosty() ? SnufflesBlocks.FROSTY_FLUFF.get() : SnufflesBlocks.SNUFFLE_FLUFF.get()));
     }
 
