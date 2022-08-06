@@ -431,6 +431,7 @@ public class Snuffle extends Animal implements IForgeShearable {
 
         public void start() {
             Snuffle.this.setFrostCounter(this.adjustedTickDelay(40));
+            Snuffle.this.gameEvent(GameEvent.ENTITY_SHAKE);
             Snuffle.this.getNavigation().stop();
         }
 
