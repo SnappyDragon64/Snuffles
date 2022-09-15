@@ -282,6 +282,7 @@ public class Snuffle extends Animal implements IForgeShearable {
         return onSheared(player, item, world, pos, fortune, SoundSource.PLAYERS);
     }
 
+    @NotNull
     public List<ItemStack> onSheared(@Nullable Player player, @NotNull ItemStack item, Level world, BlockPos pos, int fortune, SoundSource source) {
         this.setFluff(false);
         this.level.gameEvent(player, GameEvent.SHEAR, pos);
