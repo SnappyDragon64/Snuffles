@@ -22,7 +22,7 @@ public class SnufflesSnowflakeParticle extends SnowflakeParticle {
     public void tick() {
         super.tick();
 
-        if (!this.level.getFluidState(new BlockPos(this.x, this.y, this.z)).isEmpty())
+        if (!this.level.getFluidState(new BlockPos((int) this.x, (int) this.y, (int) this.z)).isEmpty())
             this.remove();
         else if (this.onGround)
             this.age++;
