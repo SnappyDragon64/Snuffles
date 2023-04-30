@@ -62,7 +62,7 @@ public class FrostyFluffBlock extends Block {
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         if (entity instanceof LivingEntity && !entity.isSteppingCarefully() && !world.isClientSide) {
             if (entity.xOld != entity.getX() || entity.yOld != entity.getY() || entity.zOld != entity.getZ()) {
-                if (world.getRandom().nextInt(5) == 0) {
+                if (world.getRandom().nextInt(16) == 0) {
                     ((ServerLevel) world).sendParticles(SnufflesParticleTypes.SNOWFLAKE.get(), entity.getX(), entity.getY(), entity.getZ(), 0, Mth.randomBetween(world.getRandom(), -1.0F, 1.0F) * 0.083F, 0.05F, Mth.randomBetween(world.getRandom(), -1.0F, 1.0F) * 0.083F, 1.0F);
                 }
             }
