@@ -1,0 +1,21 @@
+{
+  "block.snuffles.snuffle_fluff": "Duvet à priser",
+  "block.snuffles.frosty_fluff": "Duvet givré",
+  "block.snuffles.snuffle_fluff_carpet": "Tapis de duvet à priser",
+  "block.snuffles.frosty_fluff_carpet": "Tapis de duvet givré",
+
+  "item.snuffles.snuffle_spawn_egg": "Oeuf d'apparition de Nasiller",
+
+  "entity.snuffles.snuffle": "Nasiller",
+
+  "snuffles.subtitles.block.frosty_fluff.thaw": "Dégel des peluches",
+
+  "snuffles.subtitles.entity.snuffle.ambient": "Nasiller renifle",
+  "snuffles.subtitles.entity.snuffle.death": "Nasiller meurt",
+  "snuffles.subtitles.entity.snuffle.eat": "Nasiller avale",
+  "snuffles.subtitles.entity.snuffle.hurt": "Nasiller fait mal",
+  "snuffles.subtitles.entity.snuffle.shake": "Nasiller secoue",
+  "snuffles.subtitles.entity.snuffle.step": "Nasiller pas",
+  "snuffles.subtitles.entity.snuffle.style": "Squish de boule de slime",
+  "snuffles.subtitles.entity.snuffle.thaw": "Nasiller dégèle"
+}
