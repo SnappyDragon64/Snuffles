@@ -1,11 +1,11 @@
 modLoader="javafml"
-loaderVersion="[45,)"
+loaderVersion="[46,)"
 license="MIT License"
 issueTrackerURL="https://github.com/SnappyDragon18/Snuffles/issues"
 
 [[mods]]
   modId="snuffles"
-  version="1.0.6"
+  version="1.0.7"
   displayName="Snuffles"
   displayURL="https://www.curseforge.com/minecraft/mc-mods/snuffles"
   authors="SchnappDragon, Edmord17"
@@ -14,6 +14,6 @@ issueTrackerURL="https://github.com/SnappyDragon18/Snuffles/issues"
   [[dependencies.snuffles]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19.4, 1.20)"
+    versionRange="[1.20, 1.21)"
     ordering="NONE"
     side="BOTH"

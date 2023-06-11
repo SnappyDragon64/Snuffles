@@ -174,7 +174,7 @@ public class Snuffle extends Animal implements IForgeShearable {
             }
 
             if ((this.xOld != this.getX() || this.yOld != this.getY() || this.zOld != this.getZ()) && this.getRandom().nextBoolean())
-                this.level.addParticle(SnufflesParticleTypes.SNOWFLAKE.get(), this.getRandomX(0.4D), this.getRandomY(), this.getRandomZ(0.4D), 0.0D, 0.0D, 0.0D);
+                this.level().addParticle(SnufflesParticleTypes.SNOWFLAKE.get(), this.getRandomX(0.4D), this.getRandomY(), this.getRandomZ(0.4D), 0.0D, 0.0D, 0.0D);
         }
 
         if (!this.hasFluff() && !this.isBaby()) {
@@ -205,21 +205,21 @@ public class Snuffle extends Animal implements IForgeShearable {
         ItemStack stack = player.getItemInHand(hand);
 
         if (stack.is(Items.SLIME_BALL)) {
-            if (!this.level.isClientSide) {
+            if (!this.level().isClientSide) {
                 this.usePlayerItem(player, hand, stack);
                 this.setHairstyleId((this.getHairstyleId() + 1) % 4);
                 this.playSound(SnufflesSoundEvents.SNUFFLE_STYLE.get(), 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
             }
 
-            return InteractionResult.sidedSuccess(this.level.isClientSide);
+            return InteractionResult.sidedSuccess(this.level().isClientSide);
         } else if (stack.is(Items.MAGMA_CREAM) && this.isFrosty()) {
-            if (!this.level.isClientSide) {
+            if (!this.level().isClientSide) {
                 this.setFrosty(false);
                 this.usePlayerItem(player, hand, stack);
                 this.playSound(SnufflesSoundEvents.SNUFFLE_THAW.get(), 0.7F, 1.6F + (this.random.nextFloat() - this.random.nextFloat()) * 0.4F);
             }
 
-            return InteractionResult.sidedSuccess(this.level.isClientSide);
+            return InteractionResult.sidedSuccess(this.level().isClientSide);
         }
 
         return super.mobInteract(player, hand);
@@ -260,7 +260,7 @@ public class Snuffle extends Animal implements IForgeShearable {
     public void handleEntityEvent(byte id) {
         if (id == 10) {
             for (int i = 0; i < 4; i ++)
-                this.level.addParticle(SnufflesParticleTypes.SNOWFLAKE.get(), this.getRandomX(0.8D), this.getEyeY(), this.getRandomZ(0.8D), 0.0D, 0.1D, 0.0D);
+                this.level().addParticle(SnufflesParticleTypes.SNOWFLAKE.get(), this.getRandomX(0.8D), this.getEyeY(), this.getRandomZ(0.8D), 0.0D, 0.1D, 0.0D);
         } else
             super.handleEntityEvent(id);
     }
@@ -283,9 +283,9 @@ public class Snuffle extends Animal implements IForgeShearable {
     @NotNull
     public List<ItemStack> onSheared(@Nullable Player player, @NotNull ItemStack item, Level world, BlockPos pos, int fortune, SoundSource source) {
         this.setFluff(false);
-        this.level.gameEvent(player, GameEvent.SHEAR, pos);
+        this.level().gameEvent(player, GameEvent.SHEAR, pos);
         this.fluffGrowTime = 18000 + this.getRandom().nextInt(6000);
-        this.level.playSound(null, this, SnufflesSoundEvents.SNUFFLE_SHEAR.get(), source, 1.0F, 1.0F);
+        this.level().playSound(null, this, SnufflesSoundEvents.SNUFFLE_SHEAR.get(), source, 1.0F, 1.0F);
         return List.of(new ItemStack(this.isFrosty() ? SnufflesBlocks.FROSTY_FLUFF.get() : SnufflesBlocks.SNUFFLE_FLUFF.get()));
     }
 
@@ -412,7 +412,7 @@ public class Snuffle extends Animal implements IForgeShearable {
                 --this.countdown;
                 return false;
             } else {
-                Level world = Snuffle.this.level;
+                Level world = Snuffle.this.level();
                 BlockPos pos = Snuffle.this.blockPosition();
                 return !Snuffle.this.isFrosty() && (Snuffle.this.isSnowingAt(world, pos) || world.getBlockState(pos).is(Blocks.POWDER_SNOW));
             }
@@ -424,7 +424,7 @@ public class Snuffle extends Animal implements IForgeShearable {
             if (Snuffle.this.getFrostCounter() % this.adjustedTickDelay(4) == 0) {
                 Snuffle.this.playSound(SnufflesSoundEvents.SNUFFLE_SHAKE.get(), 1.0F, (Snuffle.this.random.nextFloat() - Snuffle.this.random.nextFloat()) * 0.2F + 1.0F);
                 Snuffle.this.setFrosty(Snuffle.this.getFrostCounter() == this.adjustedTickDelay(4));
-                Snuffle.this.level.broadcastEntityEvent(Snuffle.this, (byte) 10);
+                Snuffle.this.level().broadcastEntityEvent(Snuffle.this, (byte) 10);
             }
         }
 

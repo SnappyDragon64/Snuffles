@@ -6,12 +6,14 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.ForgeSpawnEggItem;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+@Mod.EventBusSubscriber(modid = Snuffles.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class SnufflesItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Snuffles.MODID);
 
@@ -24,11 +26,12 @@ public class SnufflesItems {
             () -> new ForgeSpawnEggItem(SnufflesEntityTypes.SNUFFLE, 16777215, 7125720, new Item.Properties()));
 
     @SubscribeEvent
-    public static void registerCreativeTabsItem(CreativeModeTabEvent.BuildContents event) {
-        if (event.getTab() == CreativeModeTabs.SPAWN_EGGS) {
+    public static void registerCreativeTabsItem(BuildCreativeModeTabContentsEvent event) {
+        System.out.println(event.getTabKey());
+        System.out.println(CreativeModeTabs.SPAWN_EGGS);
+        if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
             event.accept(SNUFFLE_SPAWN_EGG);
-        }
-        if (event.getTab() == CreativeModeTabs.BUILDING_BLOCKS) {
+        } else if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
             event.accept(SNUFFLE_FLUFF);
             event.accept(FROSTY_FLUFF);
             event.accept(SNUFFLE_FLUFF_CARPET);
