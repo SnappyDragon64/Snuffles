@@ -23,6 +23,6 @@ public class SnufflesSoundEvents {
     public static final RegistryObject<SoundEvent> SNUFFLE_THAW = register("entity.snuffle.thaw");
 
     private static RegistryObject<SoundEvent> register(String name) {
-        return SOUND_EVENTS.register(name, () -> new SoundEvent((new ResourceLocation(Snuffles.MODID, name))));
+        return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Snuffles.MODID, name)));
     }
 }
