@@ -2,7 +2,7 @@ package mod.schnappdragon.snuffles.core.dispenser;
 
 import mod.schnappdragon.snuffles.common.entity.animal.Snuffle;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.BlockSource;
+import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
 import net.minecraft.server.level.ServerLevel;
@@ -22,8 +22,8 @@ public class SnufflesShearsDispenseItemBehavior {
 
         DispenserBlock.registerBehavior(Items.SHEARS, new OptionalDispenseItemBehavior() {
             protected ItemStack execute(BlockSource source, ItemStack stack) {
-                ServerLevel worldIn = source.getLevel();
-                BlockPos pos = source.getPos().relative(source.getBlockState().getValue(DispenserBlock.FACING));
+                ServerLevel worldIn = source.level();
+                BlockPos pos = source.pos().relative(source.state().getValue(DispenserBlock.FACING));
 
                 for (Snuffle snuffle : worldIn.getEntitiesOfClass(Snuffle.class, new AABB(pos), EntitySelector.NO_SPECTATORS)) {
                     if (snuffle.isShearable(ItemStack.EMPTY, worldIn, pos)) {

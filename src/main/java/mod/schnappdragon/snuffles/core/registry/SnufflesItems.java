@@ -27,8 +27,6 @@ public class SnufflesItems {
 
     @SubscribeEvent
     public static void registerCreativeTabsItem(BuildCreativeModeTabContentsEvent event) {
-        System.out.println(event.getTabKey());
-        System.out.println(CreativeModeTabs.SPAWN_EGGS);
         if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
             event.accept(SNUFFLE_SPAWN_EGG);
         } else if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {

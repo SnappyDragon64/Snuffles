@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.0.7'
+version = '1.0.8'
 group = 'mod.schnappdragon.snuffles' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'snuffles'
 
@@ -33,7 +33,7 @@ minecraft {
     //
     // Use non-default mappings at your own risk. They may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'official', version: '1.20'
+    mappings channel: 'official', version: '1.20.2'
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg') // Currently, this location cannot be changed from the default.
 
@@ -125,7 +125,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.20-46.0.1'
+    minecraft 'net.minecraftforge:forge:1.20.2-48.0.39'
 }
 
 // Example for how to get properties into the manifest for reading at runtime.
