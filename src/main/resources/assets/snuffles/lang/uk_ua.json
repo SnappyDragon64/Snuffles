@@ -1,0 +1,21 @@
+{
+  "block.snuffles.snuffle_fluff": "Пух сопуна",
+  "block.snuffles.frosty_fluff": "Морозний пух",
+  "block.snuffles.snuffle_fluff_carpet": "Килим з пуху сопуна",
+  "block.snuffles.frosty_fluff_carpet": "Килим з морозного пуху",
+
+  "item.snuffles.snuffle_spawn_egg": "Яйце виклику сопуна",
+
+  "entity.snuffles.snuffle": "Сопун",
+
+  "snuffles.subtitles.block.frosty_fluff.thaw": "Пух тане",
+
+  "snuffles.subtitles.entity.snuffle.ambient": "Сопун сопе",
+  "snuffles.subtitles.entity.snuffle.death": "Сопун гине",
+  "snuffles.subtitles.entity.snuffle.eat": "Сопун сьорбає",
+  "snuffles.subtitles.entity.snuffle.hurt": "Сопуна поранено",
+  "snuffles.subtitles.entity.snuffle.shake": "Сопун трясеться",
+  "snuffles.subtitles.entity.snuffle.step": "Сопун крокує",
+  "snuffles.subtitles.entity.snuffle.style": "Слизова кулька хлюпається",
+  "snuffles.subtitles.entity.snuffle.thaw": "Сопун тане"
+}
