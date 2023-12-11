@@ -5,6 +5,7 @@ import mod.schnappdragon.snuffles.core.misc.SnufflesFlammables;
 import mod.schnappdragon.snuffles.core.misc.SnufflesSpawns;
 import mod.schnappdragon.snuffles.core.registry.*;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -20,8 +21,6 @@ public class Snuffles {
     public Snuffles() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        modEventBus.addListener(this::commonSetup);
-
         SnufflesBlocks.BLOCKS.register(modEventBus);
         SnufflesItems.ITEMS.register(modEventBus);
         SnufflesEntityTypes.ENTITY_TYPES.register(modEventBus);
@@ -31,6 +30,7 @@ public class Snuffles {
         NeoForge.EVENT_BUS.register(this);
     }
 
+    @SubscribeEvent
     private void commonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             SnufflesSpawns.registerSpawns();
