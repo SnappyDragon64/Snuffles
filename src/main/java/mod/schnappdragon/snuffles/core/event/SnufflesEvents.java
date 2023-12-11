@@ -2,10 +2,10 @@ package mod.schnappdragon.snuffles.core.event;
 
 import mod.schnappdragon.snuffles.common.block.SnuffleFluffBlock;
 import mod.schnappdragon.snuffles.core.Snuffles;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
 @Mod.EventBusSubscriber(modid = Snuffles.MODID)
 public class SnufflesEvents {
