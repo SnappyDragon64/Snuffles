@@ -8,8 +8,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.neoforged.neoforge.common.NeoForge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,16 +16,14 @@ public class Snuffles {
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String MODID = "snuffles";
 
-    public Snuffles() {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+    public Snuffles(IEventBus bus) {
+        bus.addListener(this::commonSetup);
 
-        SnufflesBlocks.BLOCKS.register(modEventBus);
-        SnufflesItems.ITEMS.register(modEventBus);
-        SnufflesEntityTypes.ENTITY_TYPES.register(modEventBus);
-        SnufflesParticleTypes.PARTICLE_TYPES.register(modEventBus);
-        SnufflesSoundEvents.SOUND_EVENTS.register(modEventBus);
-
-        NeoForge.EVENT_BUS.register(this);
+        SnufflesBlocks.BLOCKS.register(bus);
+        SnufflesItems.ITEMS.register(bus);
+        SnufflesEntityTypes.ENTITY_TYPES.register(bus);
+        SnufflesParticleTypes.PARTICLE_TYPES.register(bus);
+        SnufflesSoundEvents.SOUND_EVENTS.register(bus);
     }
 
     @SubscribeEvent
