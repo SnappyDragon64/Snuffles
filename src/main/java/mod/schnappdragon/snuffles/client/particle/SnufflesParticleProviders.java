@@ -16,7 +16,7 @@ import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 public class SnufflesParticleProviders {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
-        registerProvider(SnufflesParticleTypes.SNOWFLAKE.get(), SnufflesSnowflakeParticle.Provider::new);
+        event.registerSpriteSet(SnufflesParticleTypes.SNOWFLAKE.get(), SnufflesSnowflakeParticle.Provider::new);
     }
 
     private static <T extends ParticleOptions> void registerProvider(ParticleType<T> particle, ParticleEngine.SpriteParticleRegistration<T> factory) {
