@@ -82,6 +82,6 @@ public class FrostyFluffCarpetBlock extends CarpetBlock {
             return InteractionResult.sidedSuccess(world.isClientSide);
         }
 
-        return super.use(state, world, pos, player, hand, hitResult);
+        return super.useWithoutItem(state, world, pos, player, hand, hitResult);
     }
 }
