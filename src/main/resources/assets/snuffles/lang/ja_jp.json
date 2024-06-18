@@ -3,9 +3,13 @@
     "block.snuffles.frosty_fluff": "凍った毛",
     "block.snuffles.snuffle_fluff_carpet": "スノッフルのカーペット",
     "block.snuffles.frosty_fluff_carpet": "凍ったカーペット",
+
     "item.snuffles.snuffle_spawn_egg": "スノッフルのスポーンエッグ",
+
     "entity.snuffles.snuffle": "スノッフル",
+
     "snuffles.subtitles.block.frosty_fluff.thaw": "凍った毛が溶ける",
+
     "snuffles.subtitles.entity.snuffle.ambient": "スノッフルが匂いを嗅ぐ",
     "snuffles.subtitles.entity.snuffle.death": "スノッフルが死ぬ",
     "snuffles.subtitles.entity.snuffle.eat": "スノッフルが食べる",
