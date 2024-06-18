@@ -31,7 +31,7 @@ public class SnufflesShearsDispenseItemBehavior {
                             worldIn.addFreshEntity(new ItemEntity(worldIn, snuffle.getX(), snuffle.getY(1.0D), snuffle.getZ(), drop));
                         });
 
-                        if (stack.hurt(1, worldIn.getRandom(), null))
+                        if (stack.hurtAndConvertOnBreak(1, worldIn.getRandom(), null))
                             stack.setCount(0);
                         this.setSuccess(true);
                         return stack;

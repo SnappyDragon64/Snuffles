@@ -87,7 +87,7 @@ public class FrostyFluffBlock extends Block {
             return InteractionResult.sidedSuccess(world.isClientSide);
         }
 
-        return super.use(state, world, pos, player, hand, hitResult);
+        return super.useWithoutItem(state, world, pos, player, hitResult);
     }
 
     @Override
