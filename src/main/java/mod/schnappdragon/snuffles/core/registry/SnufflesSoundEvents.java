@@ -23,6 +23,6 @@ public class SnufflesSoundEvents {
     public static final DeferredHolder<SoundEvent, SoundEvent> SNUFFLE_THAW = register("entity.snuffle.thaw");
 
     private static DeferredHolder<SoundEvent, SoundEvent> register(String name) {
-        return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Snuffles.MODID, name)));
+        return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, name)));
     }
 }
