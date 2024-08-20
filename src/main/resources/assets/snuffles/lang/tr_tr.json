@@ -1,0 +1,21 @@
+{
+  "block.snuffles.snuffle_fluff": "Snuffle Tüyü",
+  "block.snuffles.frosty_fluff": "Donmuş Tüy",
+  "block.snuffles.snuffle_fluff_carpet": "Snuffle Tüyü Halı",
+  "block.snuffles.frosty_fluff_carpet": "Donmuş Tüy Halı",
+
+  "item.snuffles.snuffle_spawn_egg": "Snuffle Çağırma Yumurtası",
+
+  "entity.snuffles.snuffle": "Snuffle",
+
+  "snuffles.subtitles.block.frosty_fluff.thaw": "Tüyler ısındı",
+
+  "snuffles.subtitles.entity.snuffle.ambient": "Snuffle burnunu çekiyor",
+  "snuffles.subtitles.entity.snuffle.death": "Snuffle öldü",
+  "snuffles.subtitles.entity.snuffle.eat": "Snuffle yiyor",
+  "snuffles.subtitles.entity.snuffle.hurt": "Snuffle hasar aldı",
+  "snuffles.subtitles.entity.snuffle.shake": "Snuffle sallıyor",
+  "snuffles.subtitles.entity.snuffle.step": "Snuffle yürüyor",
+  "snuffles.subtitles.entity.snuffle.style": "Balçık Topu ezildi",
+  "snuffles.subtitles.entity.snuffle.thaw": "Snuffle ısındı"
+}
