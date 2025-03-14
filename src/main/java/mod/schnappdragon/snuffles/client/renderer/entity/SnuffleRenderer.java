@@ -11,16 +11,16 @@ import net.minecraft.resources.ResourceLocation;
 
 public class SnuffleRenderer extends MobRenderer<Snuffle, SnuffleModel<Snuffle>> {
     private static final ResourceLocation[] SNUFFLE_LOCATIONS = {
-            new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/snuffle_default.png"),
-            new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/snuffle_sheepdog.png"),
-            new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/snuffle_poro.png"),
-            new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/snuffle_horseshoe.png")
+            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/snuffle_default.png"),
+            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/snuffle_sheepdog.png"),
+            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/snuffle_poro.png"),
+            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/snuffle_horseshoe.png")
     };
     private static final ResourceLocation[] FROSTY_LOCATIONS = {
-            new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/frosty_default.png"),
-            new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/frosty_sheepdog.png"),
-            new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/frosty_poro.png"),
-            new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/frosty_horseshoe.png")
+            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/frosty_default.png"),
+            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/frosty_sheepdog.png"),
+            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/frosty_poro.png"),
+            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/frosty_horseshoe.png")
     };
 
     public SnuffleRenderer(EntityRendererProvider.Context context) {

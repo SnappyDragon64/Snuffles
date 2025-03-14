@@ -88,13 +88,13 @@ public class Snuffle extends Animal implements IShearable {
      * Data Methods
      */
 
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(FROST_COUNTER, 0);
-        this.entityData.define(DATA_HAIRSTYLE_ID, 0);
-        this.entityData.define(DATA_FLUFF, false);
-        this.entityData.define(DATA_FROSTY, false);
-        this.entityData.define(IS_LICKING, false);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(FROST_COUNTER, 0);
+        builder.define(DATA_HAIRSTYLE_ID, 0);
+        builder.define(DATA_FLUFF, false);
+        builder.define(DATA_FROSTY, false);
+        builder.define(IS_LICKING, false);
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
@@ -273,22 +273,15 @@ public class Snuffle extends Animal implements IShearable {
      */
 
     @Override
-    public boolean isShearable(@NotNull ItemStack item, Level world, BlockPos pos) {
+    public boolean isShearable(@Nullable Player player, ItemStack item, Level world, BlockPos pos) {
         return this.isAlive() && !this.isBaby() && this.hasFluff();
     }
 
     @NotNull
-    @Override
-    public List<ItemStack> onSheared(@Nullable Player player, @NotNull ItemStack item, Level world, BlockPos pos, int fortune) {
-        return onSheared(player, item, world, pos, fortune, SoundSource.PLAYERS);
-    }
-
-    @NotNull
-    public List<ItemStack> onSheared(@Nullable Player player, @NotNull ItemStack item, Level world, BlockPos pos, int fortune, SoundSource source) {
+    public List<ItemStack> onSheared(@Nullable Player player, ItemStack item, Level world, BlockPos pos) {
         this.setFluff(false);
-        this.level().gameEvent(player, GameEvent.SHEAR, pos);
         this.fluffGrowTime = 18000 + this.getRandom().nextInt(6000);
-        this.level().playSound(null, this, SnufflesSoundEvents.SNUFFLE_SHEAR.get(), source, 1.0F, 1.0F);
+        this.playSound(SnufflesSoundEvents.SNUFFLE_SHEAR.get());
         return List.of(new ItemStack(this.isFrosty() ? SnufflesBlocks.FROSTY_FLUFF.get() : SnufflesBlocks.SNUFFLE_FLUFF.get()));
     }
 
@@ -301,7 +294,7 @@ public class Snuffle extends Animal implements IShearable {
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData groupData, @Nullable CompoundTag compound) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData groupData) {
         boolean frosty = world.getBiome(this.blockPosition()).value().coldEnoughToSnow(this.blockPosition());
 
         if (groupData instanceof Snuffle.SnuffleGroupData)
@@ -316,7 +309,7 @@ public class Snuffle extends Animal implements IShearable {
             this.setFluff(true);
 
         this.setFrosty(frosty);
-        return super.finalizeSpawn(world, difficulty, spawnType, groupData, compound);
+        return super.finalizeSpawn(world, difficulty, spawnType, groupData);
     }
 
     /*

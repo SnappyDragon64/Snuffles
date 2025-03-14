@@ -6,12 +6,12 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = Snuffles.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT, modid = Snuffles.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class SnufflesModelLayers {
-    public static ModelLayerLocation SNUFFLE = new ModelLayerLocation(new ResourceLocation(Snuffles.MODID, "snuffle"), "main");
+    public static ModelLayerLocation SNUFFLE = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "snuffle"), "main");
 
     @SubscribeEvent
     public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
