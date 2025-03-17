@@ -1,0 +1,21 @@
+{
+  "block.snuffles.snuffle_fluff": "Snus Fnug",
+  "block.snuffles.frosty_fluff": "Frostigt Fnug",
+  "block.snuffles.snuffle_fluff_carpet": "Snus Fnug Tæppe",
+  "block.snuffles.frosty_fluff_carpet": "Frostigt Fnug Tæppe",
+
+  "item.snuffles.snuffle_spawn_egg": "Snus Gydeæg",
+
+  "entity.snuffles.snuffle": "Snus",
+
+  "snuffles.subtitles.block.frosty_fluff.thaw": "Fnug tøer op",
+
+  "snuffles.subtitles.entity.snuffle.ambient": "Snus snuser",
+  "snuffles.subtitles.entity.snuffle.death": "Snus dør",
+  "snuffles.subtitles.entity.snuffle.eat": "Snus slurper",
+  "snuffles.subtitles.entity.snuffle.hurt": "Snus gør ondt",
+  "snuffles.subtitles.entity.snuffle.shake": "Snus ryster",
+  "snuffles.subtitles.entity.snuffle.step": "Snus trin",
+  "snuffles.subtitles.entity.snuffle.style": "Slimkugle klemmer",
+  "snuffles.subtitles.entity.snuffle.thaw": "Snus tøer op"
+}
