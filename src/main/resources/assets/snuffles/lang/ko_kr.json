@@ -1,0 +1,21 @@
+{
+    "block.snuffles.snuffle_fluff": "스노플 털",
+    "block.snuffles.frosty_fluff": "얼어붙은 머리",
+    "block.snuffles.snuffle_fluff_carpet": "스노플 카펫",
+    "block.snuffles.frosty_fluff_carpet": "얼어붙은 카펫",
+
+    "item.snuffles.snuffle_spawn_egg": "스노플의 스폰에그",
+
+    "entity.snuffles.snuffle": "스노플",
+
+    "snuffles.subtitles.block.frosty_fluff.thaw": "얼어붙은 머리카락이 녹는다",
+
+    "snuffles.subtitles.entity.snuffle.ambient": "스노플이 냄새를 맡는다",
+    "snuffles.subtitles.entity.snuffle.death": "스노플이 죽는다",
+    "snuffles.subtitles.entity.snuffle.eat": "스노플이 먹는다",
+    "snuffles.subtitles.entity.snuffle.hurt": "스노플이 피해를 입",
+    "snuffles.subtitles.entity.snuffle.shake": "스노플이 떨림",
+    "snuffles.subtitles.entity.snuffle.step": "스노플이 걷다",
+    "snuffles.subtitles.entity.snuffle.style": "스노플 털을 정돈하다",
+    "snuffles.subtitles.entity.snuffle.thaw": "얼어붙은 머리카락이 녹는다"
+}
