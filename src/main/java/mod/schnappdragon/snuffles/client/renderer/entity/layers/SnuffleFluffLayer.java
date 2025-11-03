@@ -16,16 +16,16 @@ import org.apache.commons.lang3.tuple.Pair;
 
 public class SnuffleFluffLayer<T extends Snuffle, M extends SnuffleModel<T>> extends RenderLayer<T, M> {
     private static final Pair<ResourceLocation, ResourceLocation> FLUFF = Pair.of(
-            new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/snuffle_fluff.png"),
-            new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/frosty_fluff.png")
+            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/snuffle_fluff.png"),
+            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/frosty_fluff.png")
     );
     private static final Pair<ResourceLocation, ResourceLocation> FLUFF_HORSESHOE = Pair.of(
-            new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/snuffle_fluff_horseshoe.png"),
-            new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/frosty_fluff_horseshoe.png")
+            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/snuffle_fluff_horseshoe.png"),
+            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/frosty_fluff_horseshoe.png")
     );
     private static final Pair<ResourceLocation, ResourceLocation> FLUFF_SHEEPDOG = Pair.of(
-            new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/snuffle_fluff_sheepdog.png"),
-            new ResourceLocation(Snuffles.MODID, "textures/entity/snuffle/frosty_fluff_sheepdog.png")
+            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/snuffle_fluff_sheepdog.png"),
+            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/frosty_fluff_sheepdog.png")
     );
 
     public SnuffleFluffLayer(RenderLayerParent<T, M> parent) {

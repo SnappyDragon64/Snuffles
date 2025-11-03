@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = Snuffles.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class SnufflesModelLayers {
-    public static ModelLayerLocation SNUFFLE = new ModelLayerLocation(new ResourceLocation(Snuffles.MODID, "snuffle"), "main");
+    public static ModelLayerLocation SNUFFLE = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "snuffle"), "main");
 
     @SubscribeEvent
     public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {

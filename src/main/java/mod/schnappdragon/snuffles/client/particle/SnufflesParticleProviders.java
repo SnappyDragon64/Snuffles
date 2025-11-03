@@ -16,10 +16,6 @@ import net.minecraftforge.fml.common.Mod;
 public class SnufflesParticleProviders {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
-        registerProvider(SnufflesParticleTypes.SNOWFLAKE.get(), SnufflesSnowflakeParticle.Provider::new);
-    }
-
-    private static <T extends ParticleOptions> void registerProvider(ParticleType<T> particle, ParticleEngine.SpriteParticleRegistration<T> factory) {
-        Minecraft.getInstance().particleEngine.register(particle, factory);
+        event.registerSpriteSet(SnufflesParticleTypes.SNOWFLAKE.get(), SnufflesSnowflakeParticle.Provider::new);
     }
 }
