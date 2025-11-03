@@ -1,0 +1,24 @@
+{
+    "block.snuffles.snuffle_fluff": "Шерсть Снуфлика",
+    "block.snuffles.frosty_fluff": "Морозная Шерсть",
+    "block.snuffles.snuffle_fluff_carpet": "Ковёр из шерсти Снуфлика",
+    "block.snuffles.frosty_fluff_carpet": "Ковёр из морозной шерсти",
+
+    "item.snuffles.snuffle_spawn_egg": "Яйцо призыва Снуфлика",
+
+    "entity.snuffles.snuffle": "Снуфлик",
+
+    "snuffles.subtitles.block.frosty_fluff.thaw": "Шерсть оттаивает",
+
+    "snuffles.subtitles.entity.snuffle.ambient": "Снуфлик шмыгает",
+    "snuffles.subtitles.entity.snuffle.death": "Снуфлик погибает",
+    "snuffles.subtitles.entity.snuffle.eat": "Снуфлик кушает",
+    "snuffles.subtitles.entity.snuffle.hurt": "Снуфлику больно",
+    "snuffles.subtitles.entity.snuffle.shake": "Снуфлик отряхивается",
+    "snuffles.subtitles.entity.snuffle.step": "Снуфлик ходит",
+    "snuffles.subtitles.entity.snuffle.style": "Слизь хлюпает",
+    "snuffles.subtitles.entity.snuffle.thaw": "Снуфлик оттаивает",
+    "snuffles.title": "Snuffles",
+    "snuffles.option.snuffles_weight.title": "Snuffles Weight",
+    "snuffles.option.snuffles_weight.desc": "Spawning weight of Snuffles"
+}
