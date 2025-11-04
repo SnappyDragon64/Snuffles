@@ -17,15 +17,19 @@ import org.apache.commons.lang3.tuple.Pair;
 public class SnuffleFluffLayer<T extends Snuffle, M extends SnuffleModel<T>> extends RenderLayer<T, M> {
     private static final Pair<ResourceLocation, ResourceLocation> FLUFF = Pair.of(
             ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/snuffle_fluff.png"),
-            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/frosty_fluff.png")
+            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/snuffle_frosty_fluff.png")
     );
     private static final Pair<ResourceLocation, ResourceLocation> FLUFF_HORSESHOE = Pair.of(
             ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/snuffle_fluff_horseshoe.png"),
-            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/frosty_fluff_horseshoe.png")
+            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/snuffle_frosty_fluff_horseshoe.png")
     );
     private static final Pair<ResourceLocation, ResourceLocation> FLUFF_SHEEPDOG = Pair.of(
             ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/snuffle_fluff_sheepdog.png"),
-            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/frosty_fluff_sheepdog.png")
+            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/snuffle_frosty_fluff_sheepdog.png")
+    );
+    private static final Pair<ResourceLocation, ResourceLocation> FLUFF_PORO = Pair.of(
+            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/snuffle_fluff_poro.png"),
+            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/snuffle_frosty_fluff_poro.png")
     );
 
     public SnuffleFluffLayer(RenderLayerParent<T, M> parent) {
@@ -53,6 +57,7 @@ public class SnuffleFluffLayer<T extends Snuffle, M extends SnuffleModel<T>> ext
         switch (snuffle.getHairstyle()) {
             case HORSESHOE -> fluff = FLUFF_HORSESHOE;
             case SHEEPDOG -> fluff = FLUFF_SHEEPDOG;
+            case PORO -> fluff = FLUFF_PORO;
             default -> fluff = FLUFF;
         }
         return snuffle.isFrosty() ? fluff.getRight() : fluff.getLeft();

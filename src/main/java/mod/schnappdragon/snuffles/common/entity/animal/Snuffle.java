@@ -13,6 +13,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.util.Mth;
@@ -46,12 +47,15 @@ import org.jetbrains.annotations.Nullable;
 import java.util.EnumSet;
 import java.util.List;
 
-public class Snuffle extends Animal implements IForgeShearable {
+public class Snuffle extends Animal implements IForgeShearable, ItemSteerable, Saddleable  {
     private static final EntityDataAccessor<Integer> FROST_COUNTER = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> DATA_HAIRSTYLE_ID = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> DATA_FLUFF = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> DATA_FROSTY = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> IS_LICKING = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> DATA_SADDLE_ID = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> DATA_BOOST_TIME = SynchedEntityData.defineId(Snuffle.class, EntityDataSerializers.INT);
+    private final ItemBasedSteering steering = new ItemBasedSteering(this.entityData, DATA_BOOST_TIME, DATA_SADDLE_ID);
 
     private int fluffGrowTime = 18000 + this.getRandom().nextInt(6000);
 
@@ -88,6 +92,14 @@ public class Snuffle extends Animal implements IForgeShearable {
      * Data Methods
      */
 
+    public void onSyncedDataUpdated(EntityDataAccessor<?> accessor) {
+        if (DATA_BOOST_TIME.equals(accessor) && this.level().isClientSide) {
+            this.steering.onSynced();
+        }
+
+        super.onSyncedDataUpdated(accessor);
+    }
+
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(FROST_COUNTER, 0);
@@ -95,6 +107,8 @@ public class Snuffle extends Animal implements IForgeShearable {
         this.entityData.define(DATA_FLUFF, false);
         this.entityData.define(DATA_FROSTY, false);
         this.entityData.define(IS_LICKING, false);
+        this.entityData.define(DATA_SADDLE_ID, false);
+        this.entityData.define(DATA_BOOST_TIME, 0);
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
@@ -103,6 +117,7 @@ public class Snuffle extends Animal implements IForgeShearable {
         compound.putBoolean("HasFluff", this.hasFluff());
         compound.putBoolean("Frosty", this.isFrosty());
         compound.putInt("FluffGrowTime", this.fluffGrowTime);
+        this.steering.addAdditionalSaveData(compound);
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
@@ -111,6 +126,7 @@ public class Snuffle extends Animal implements IForgeShearable {
         this.setFluff(compound.getBoolean("HasFluff"));
         this.setFrosty(compound.getBoolean("Frosty"));
         this.fluffGrowTime = compound.getInt("FluffGrowTime");
+        this.steering.readAdditionalSaveData(compound);
     }
 
     public void setFrostCounter(int counter) {
@@ -211,22 +227,40 @@ public class Snuffle extends Animal implements IForgeShearable {
             if (!this.level().isClientSide) {
                 this.usePlayerItem(player, hand, stack);
                 this.setHairstyleId((this.getHairstyleId() + 1) % 4);
-                this.playSound(SnufflesSoundEvents.SNUFFLE_STYLE.get(), 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
+                this.playSound(SnufflesSoundEvents.SNUFFLE_STYLE.get(), 1.0F,
+                        (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
             }
-
-            return InteractionResult.sidedSuccess(this.level().isClientSide);
-        } else if (stack.is(Items.MAGMA_CREAM) && this.isFrosty()) {
-            if (!this.level().isClientSide) {
-                this.setFrosty(false);
-                this.usePlayerItem(player, hand, stack);
-                this.playSound(SnufflesSoundEvents.SNUFFLE_THAW.get(), 0.7F, 1.6F + (this.random.nextFloat() - this.random.nextFloat()) * 0.4F);
-            }
-
             return InteractionResult.sidedSuccess(this.level().isClientSide);
         }
 
-        return super.mobInteract(player, hand);
+        if (stack.is(Items.MAGMA_CREAM) && this.isFrosty()) {
+            if (!this.level().isClientSide) {
+                this.setFrosty(false);
+                this.usePlayerItem(player, hand, stack);
+                this.playSound(SnufflesSoundEvents.SNUFFLE_THAW.get(), 0.7F,
+                        1.6F + (this.random.nextFloat() - this.random.nextFloat()) * 0.4F);
+            }
+            return InteractionResult.sidedSuccess(this.level().isClientSide);
+        }
+
+        boolean isFood = this.isFood(stack);
+        if (!isFood && this.isSaddled() && !this.isVehicle() && !player.isSecondaryUseActive()) {
+            if (!this.level().isClientSide) {
+                player.startRiding(this);
+            }
+            return InteractionResult.sidedSuccess(this.level().isClientSide);
+        } else {
+            InteractionResult result = super.mobInteract(player, hand);
+            if (!result.consumesAction()) {
+                return stack.is(Items.SADDLE)
+                        ? stack.interactLivingEntity(player, this, hand)
+                        : InteractionResult.PASS;
+            } else {
+                return result;
+            }
+        }
     }
+
 
     protected void usePlayerItem(Player player, InteractionHand hand, ItemStack stack) {
         if (this.isFood(stack))
@@ -290,6 +324,76 @@ public class Snuffle extends Animal implements IForgeShearable {
         this.fluffGrowTime = 18000 + this.getRandom().nextInt(6000);
         this.level().playSound(null, this, SnufflesSoundEvents.SNUFFLE_SHEAR.get(), source, 1.0F, 1.0F);
         return List.of(new ItemStack(this.isFrosty() ? SnufflesBlocks.FROSTY_FLUFF.get() : SnufflesBlocks.SNUFFLE_FLUFF.get()));
+    }
+
+    /*
+     * Steering Methods
+     */
+
+    @Nullable
+    public LivingEntity getControllingPassenger() {
+        if (this.isSaddled()) {
+            Entity entity = this.getFirstPassenger();
+            if (entity instanceof Player) {
+                Player player = (Player) entity;
+                if (player.getMainHandItem().is(Items.CARROT_ON_A_STICK) || player.getOffhandItem().is(Items.CARROT_ON_A_STICK)) {
+                    return player;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    protected void tickRidden(Player player, Vec3 vector) {
+        super.tickRidden(player, vector);
+        this.setRot(player.getYRot(), player.getXRot() * 0.5F);
+        this.yRotO = this.yBodyRot = this.yHeadRot = this.getYRot();
+        this.steering.tickBoost();
+    }
+
+    protected Vec3 getRiddenInput(Player player, Vec3 vector) {
+        return new Vec3(0.0D, 0.0D, 1.0D);
+    }
+
+    protected float getRiddenSpeed(Player player) {
+        return (float)(this.getAttributeValue(Attributes.MOVEMENT_SPEED) * 0.5D * (double) this.steering.boostFactor());
+    }
+
+    @Override
+    public boolean boost() {
+        return this.steering.boost(this.getRandom());
+    }
+
+    /*
+     * Saddle Methods
+     */
+
+    @Override
+    public boolean isSaddleable() {
+        return this.isAlive() && !this.isBaby();
+    }
+
+    protected void dropEquipment() {
+        super.dropEquipment();
+
+        if (this.isSaddled()) {
+            this.spawnAtLocation(Items.SADDLE);
+        }
+    }
+
+    @Override
+    public void equipSaddle(@Nullable SoundSource source) {
+        this.steering.setSaddle(true);
+
+        if (source != null) {
+            this.level().playSound(null, this, SoundEvents.PIG_SADDLE, source, 0.5F, 1.0F);
+        }
+    }
+
+    @Override
+    public boolean isSaddled() {
+        return this.steering.hasSaddle();
     }
 
     /*

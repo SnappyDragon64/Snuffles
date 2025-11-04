@@ -7,6 +7,7 @@ import mod.schnappdragon.snuffles.common.entity.animal.Snuffle;
 import mod.schnappdragon.snuffles.core.Snuffles;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.layers.SaddleLayer;
 import net.minecraft.resources.ResourceLocation;
 
 public class SnuffleRenderer extends MobRenderer<Snuffle, SnuffleModel<Snuffle>> {
@@ -17,15 +18,16 @@ public class SnuffleRenderer extends MobRenderer<Snuffle, SnuffleModel<Snuffle>>
             ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/snuffle_horseshoe.png")
     };
     private static final ResourceLocation[] FROSTY_LOCATIONS = {
-            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/frosty_default.png"),
-            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/frosty_sheepdog.png"),
-            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/frosty_poro.png"),
-            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/frosty_horseshoe.png")
+            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/snuffle_frosty_default.png"),
+            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/snuffle_frosty_sheepdog.png"),
+            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/snuffle_frosty_poro.png"),
+            ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/snuffle_frosty_horseshoe.png")
     };
 
     public SnuffleRenderer(EntityRendererProvider.Context context) {
         super(context, new SnuffleModel<>(context.bakeLayer(SnufflesModelLayers.SNUFFLE)), 0.7F);
         this.addLayer(new SnuffleFluffLayer<>(this));
+        this.addLayer(new SaddleLayer<>(this, new SnuffleModel<>(context.bakeLayer(SnufflesModelLayers.SNUFFLE_SADDLE)), ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, "textures/entity/snuffle/snuffle_saddle.png")));
     }
 
     @Override
