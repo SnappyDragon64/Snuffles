@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "#forge:crops/potato",
+    "#forge:crops/carrot",
+    "#forge:crops/beetroot",
     "minecraft:baked_potato"
   ]
 }
