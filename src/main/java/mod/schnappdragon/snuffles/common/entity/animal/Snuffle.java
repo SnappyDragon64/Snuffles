@@ -385,7 +385,7 @@ public class Snuffle extends Animal implements IForgeShearable, ItemSteerable, S
     }
 
     protected float getRiddenSpeed(Player player) {
-        return (float)(this.getAttributeValue(Attributes.MOVEMENT_SPEED) * 0.55D * (double) this.steering.boostFactor());
+        return (float)(this.getAttributeValue(Attributes.MOVEMENT_SPEED) * 0.5D * (double) this.steering.boostFactor());
     }
 
     @Override
