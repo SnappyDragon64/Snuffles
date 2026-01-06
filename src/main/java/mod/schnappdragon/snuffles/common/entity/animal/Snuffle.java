@@ -370,6 +370,11 @@ public class Snuffle extends Animal implements IForgeShearable, ItemSteerable, S
 
     protected void tickRidden(Player player, Vec3 vector) {
         super.tickRidden(player, vector);
+
+        if (player.getTicksFrozen() > 0) {
+            player.setTicksFrozen(0);
+        }
+
         this.setRot(player.getYRot(), player.getXRot() * 0.5F);
         this.yRotO = this.yBodyRot = this.yHeadRot = this.getYRot();
         this.steering.tickBoost();
