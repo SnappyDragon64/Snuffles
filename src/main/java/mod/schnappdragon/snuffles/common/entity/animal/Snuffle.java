@@ -330,6 +330,29 @@ public class Snuffle extends Animal implements IForgeShearable, ItemSteerable, S
      * Steering Methods
      */
 
+    @Override
+    public void travel(Vec3 vec3) {
+        boolean jump = false;
+
+        if (this.getControllingPassenger() != null) {
+            boolean flag = this.wasInPowderSnow || this.isInPowderSnow;
+            if (flag && this.isFrosty() && this.getType().is(EntityTypeTags.POWDER_SNOW_WALKABLE_MOBS)) {
+                BlockPos blockpos = this.blockPosition().above();
+                BlockState blockstate = this.level().getBlockState(blockpos);
+                if (blockstate.is(Blocks.POWDER_SNOW) || blockstate.getCollisionShape(this.level(), blockpos) == Shapes.empty()) {
+                    this.jumping = true;
+                    jump = true;
+                }
+            }
+        }
+
+        super.travel(vec3);
+
+        if (jump) {
+            this.jumping = false;
+        }
+    }
+
     @Nullable
     public LivingEntity getControllingPassenger() {
         if (this.isSaddled()) {
@@ -482,7 +505,7 @@ public class Snuffle extends Animal implements IForgeShearable, ItemSteerable, S
      * AI Goals
      */
 
-    class SnuffleClimbOnTopOfPowderSnowGoal extends net.minecraft.world.entity.ai.goal.ClimbOnTopOfPowderSnowGoal {
+    class SnuffleClimbOnTopOfPowderSnowGoal extends ClimbOnTopOfPowderSnowGoal {
         public SnuffleClimbOnTopOfPowderSnowGoal(Mob mob, Level world) {
             super(mob, world);
         }
@@ -490,10 +513,10 @@ public class Snuffle extends Animal implements IForgeShearable, ItemSteerable, S
         @Override
         public boolean canUse() {
             boolean flag = Snuffle.this.wasInPowderSnow || Snuffle.this.isInPowderSnow;
-            if (flag && Snuffle.this.getType().is(EntityTypeTags.POWDER_SNOW_WALKABLE_MOBS)) {
+            if (flag && Snuffle.this.isFrosty() && Snuffle.this.getType().is(EntityTypeTags.POWDER_SNOW_WALKABLE_MOBS)) {
                 BlockPos blockpos = Snuffle.this.blockPosition().above();
                 BlockState blockstate = Snuffle.this.level().getBlockState(blockpos);
-                return blockstate.is(Blocks.POWDER_SNOW) || blockstate.getCollisionShape(Snuffle.this.level(), blockpos) == Shapes.empty() && Snuffle.this.isFrosty();
+                return blockstate.is(Blocks.POWDER_SNOW) || blockstate.getCollisionShape(Snuffle.this.level(), blockpos) == Shapes.empty();
             } else {
                 return false;
             }
