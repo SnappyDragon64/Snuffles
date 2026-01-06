@@ -330,6 +330,12 @@ public class Snuffle extends Animal implements IForgeShearable, ItemSteerable, S
      * Steering Methods
      */
 
+    public double getPassengersRidingOffset() {
+        float f = Math.min(0.25F, this.walkAnimation.speed());
+        float f1 = this.walkAnimation.position();
+        return super.getPassengersRidingOffset() - 0.04F + (0.24F * Mth.cos(f1 * 0.6F) * f);
+    }
+
     @Override
     public void travel(Vec3 vec3) {
         boolean jump = false;
