@@ -336,7 +336,7 @@ public class Snuffle extends Animal implements IForgeShearable, ItemSteerable, S
 
         if (this.getControllingPassenger() != null) {
             boolean flag = this.wasInPowderSnow || this.isInPowderSnow;
-            if (flag && this.isFrosty() && this.getType().is(EntityTypeTags.POWDER_SNOW_WALKABLE_MOBS)) {
+            if (flag && this.getType().is(EntityTypeTags.POWDER_SNOW_WALKABLE_MOBS)) {
                 BlockPos blockpos = this.blockPosition().above();
                 BlockState blockstate = this.level().getBlockState(blockpos);
                 if (blockstate.is(Blocks.POWDER_SNOW) || blockstate.getCollisionShape(this.level(), blockpos) == Shapes.empty()) {
