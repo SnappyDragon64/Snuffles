@@ -43,6 +43,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraftforge.common.IForgeShearable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -330,10 +331,12 @@ public class Snuffle extends Animal implements IForgeShearable, ItemSteerable, S
      * Steering Methods
      */
 
-    public double getPassengersRidingOffset() {
+    @Override
+    protected Vector3f getPassengerAttachmentPoint(Entity entity, EntityDimensions entityDimensions, float passenger) {
         float f = Math.min(0.25F, this.walkAnimation.speed());
         float f1 = this.walkAnimation.position();
-        return super.getPassengersRidingOffset() - 0.04F + (0.24F * Mth.cos(f1 * 0.6F) * f);
+        float f2 = 0.12F * Mth.cos(f1 * 0.6F) * 2.0F * f;
+        return new Vector3f(0.0F, entityDimensions.height - 0.08F + f2 * passenger, 0.0F);
     }
 
     @Override
@@ -589,7 +592,7 @@ public class Snuffle extends Animal implements IForgeShearable, ItemSteerable, S
 
         public void start() {
             Snuffle.this.setFrostCounter(this.adjustedTickDelay(40));
-            Snuffle.this.gameEvent(GameEvent.ENTITY_SHAKE);
+            Snuffle.this.gameEvent(GameEvent.ENTITY_ACTION);
             Snuffle.this.getNavigation().stop();
         }
 

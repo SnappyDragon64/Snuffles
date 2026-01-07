@@ -10,6 +10,6 @@ public class SnufflesItemTags {
     public static final TagKey<Item> SNUFFLE_FOOD = makeTag("snuffle_food");
 
     private static TagKey<Item> makeTag(String id) {
-        return ItemTags.create(new ResourceLocation(Snuffles.MODID, id));
+        return ItemTags.create(ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, id));
     }
 }

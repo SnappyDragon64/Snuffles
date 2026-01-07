@@ -10,6 +10,6 @@ public class SnufflesBlockTags {
     public static final TagKey<Block> SNUFFLES_SPAWNABLE_ON = makeTag("snuffles_spawnable_on");
 
     private static TagKey<Block> makeTag(String id) {
-        return BlockTags.create(new ResourceLocation(Snuffles.MODID, id));
+        return BlockTags.create(ResourceLocation.fromNamespaceAndPath(Snuffles.MODID, id));
     }
 }

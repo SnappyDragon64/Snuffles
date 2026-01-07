@@ -7,7 +7,6 @@ import mod.schnappdragon.snuffles.core.registry.*;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
@@ -18,16 +17,16 @@ public class Snuffles {
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String MODID = "snuffles";
 
-    public Snuffles() {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+    public Snuffles(FMLJavaModLoadingContext context) {
+        IEventBus bus = context.getModEventBus();
 
-        modEventBus.addListener(this::commonSetup);
+        bus.addListener(this::commonSetup);
 
-        SnufflesBlocks.BLOCKS.register(modEventBus);
-        SnufflesItems.ITEMS.register(modEventBus);
-        SnufflesEntityTypes.ENTITY_TYPES.register(modEventBus);
-        SnufflesParticleTypes.PARTICLE_TYPES.register(modEventBus);
-        SnufflesSoundEvents.SOUND_EVENTS.register(modEventBus);
+        SnufflesBlocks.BLOCKS.register(bus);
+        SnufflesItems.ITEMS.register(bus);
+        SnufflesEntityTypes.ENTITY_TYPES.register(bus);
+        SnufflesParticleTypes.PARTICLE_TYPES.register(bus);
+        SnufflesSoundEvents.SOUND_EVENTS.register(bus);
 
         MinecraftForge.EVENT_BUS.register(this);
     }
