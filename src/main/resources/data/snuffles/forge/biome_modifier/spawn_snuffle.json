@@ -1,9 +1,6 @@
 {
   "type": "forge:add_spawns",
-  "biomes": [
-    "minecraft:snowy_plains",
-    "minecraft:ice_spikes"
-  ],
+  "biomes": "#forge:is_snowy",
   "spawners": {
     "type": "snuffles:snuffle",
     "weight": 12,
