@@ -3,7 +3,9 @@
   "ingredient": {
     "item": "snuffles:frosty_fluff"
   },
-  "result": "snuffles:snuffle_fluff",
+  "result": {
+      "id": "snuffles:snuffle_fluff"
+  },
   "experience": 0.1,
   "cookingtime": 200
 }
